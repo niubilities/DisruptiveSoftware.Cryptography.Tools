@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 0.3.1 (2022-4-7)
+
+- Upgarde the framewrok to net6.0
+- Add export file type - .cer
+
 ## 0.3.0 (2020-11-14)
 
 - Switch to using Portable.BouncyCastle package and update to the latest version 1.8.8.

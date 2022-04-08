@@ -15,7 +15,8 @@ namespace CertUtil
         public static readonly Dictionary<string, string> PublicKeyCertificatesFormats = new Dictionary<string, string>()
         {
             { "Base64 DER encoded (*.pem)", "*.pem" },
-            { "Binary DER encoded (*.crt)", "*.crt" }
+            { "Binary DER encoded (*.crt)", "*.crt" },
+            { "Binary DER encoded (*.cer)", "*.cer" }
         };
 
         // Private Key Formats.

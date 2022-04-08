@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSLCertBundleGenerator", "SSLCertBundleGenerator\SSLCertBundleGenerator.csproj", "{52362ADE-433B-4990-A3CE-02C09751139B}"
 EndProject
@@ -9,25 +9,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
 		COPYING = COPYING
-		GitAssemblyVersion.targets = GitAssemblyVersion.targets
+		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
+		public.props = public.props
 		README.md = README.md
+		version.props = version.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{297F7C99-B33D-444F-AB2C-D342F44D8BFC}"
-	ProjectSection(SolutionItems) = preProject
-		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
-		.build\MSBuild.Community.Tasks.Targets = .build\MSBuild.Community.Tasks.Targets
-		.build\MSBuild.Community.Tasks.xml = .build\MSBuild.Community.Tasks.xml
-		.build\MSBuild.Community.Tasks.xsd = .build\MSBuild.Community.Tasks.xsd
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DisruptiveSoftware.Cryptography", "DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.csproj", "{C2F5FBF1-F3F2-4D30-BCB1-3F5BBB0F9634}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisruptiveSoftware.Cryptography", "DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.csproj", "{C2F5FBF1-F3F2-4D30-BCB1-3F5BBB0F9634}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F582A57E-EAE8-45EF-A20D-6E52081D560A}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertUtil", "CertUtil\CertUtil.csproj", "{0006E6C7-5FC9-476A-8E7D-51F17DA53344}"
 EndProject
