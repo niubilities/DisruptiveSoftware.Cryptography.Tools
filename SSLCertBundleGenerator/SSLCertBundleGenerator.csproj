@@ -15,10 +15,6 @@
     <PackageLicenseExpression>GPL</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
-
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
