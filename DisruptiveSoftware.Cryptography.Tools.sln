@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSLCertBundleGenerator", "SSLCertBundleGenerator\SSLCertBundleGenerator.csproj", "{52362ADE-433B-4990-A3CE-02C09751139B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SSLCertBundleGenerator", "SSLCertBundleGenerator\SSLCertBundleGenerator.csproj", "{52362ADE-433B-4990-A3CE-02C09751139B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{923043A3-5510-4652-8B44-18F311357887}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,7 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisruptiveSoftware.Cryptogr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F582A57E-EAE8-45EF-A20D-6E52081D560A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertUtil", "CertUtil\CertUtil.csproj", "{0006E6C7-5FC9-476A-8E7D-51F17DA53344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CertUtil", "CertUtil\CertUtil.csproj", "{0006E6C7-5FC9-476A-8E7D-51F17DA53344}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DisruptiveSoftware.Cryptography.Tests", "DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.Tests\DisruptiveSoftware.Cryptography.Tests.csproj", "{CB46618F-6768-4AB9-950D-3786A849AAAE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{0006E6C7-5FC9-476A-8E7D-51F17DA53344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0006E6C7-5FC9-476A-8E7D-51F17DA53344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0006E6C7-5FC9-476A-8E7D-51F17DA53344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB46618F-6768-4AB9-950D-3786A849AAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB46618F-6768-4AB9-950D-3786A849AAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB46618F-6768-4AB9-950D-3786A849AAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB46618F-6768-4AB9-950D-3786A849AAAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
