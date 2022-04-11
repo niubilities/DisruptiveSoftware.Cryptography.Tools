@@ -1,4 +1,0 @@
-[submodule "DisruptiveSoftware.Cryptography"]
-	path = DisruptiveSoftware.Cryptography
-url=git@github.com:niubilities/DisruptiveSoftware.Cryptography.git
-	branch = master
