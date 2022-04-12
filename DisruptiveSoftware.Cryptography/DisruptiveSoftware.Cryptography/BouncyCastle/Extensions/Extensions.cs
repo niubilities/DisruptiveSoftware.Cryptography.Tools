@@ -13,7 +13,7 @@ namespace DisruptiveSoftware.Cryptography.BouncyCastle.Extensions
 
     public static class Extensions
     {
-        public static byte[] ExportCertificate(this X509Certificate x509Certificate, SecureString password,
+        public static byte[] ExportCertificate(this X509Certificate x509Certificate, SecureString? password,
             AsymmetricKeyParameter privateKey, string alias = "Certificate")
         {
             var pkcs12Store = new Pkcs12Store();

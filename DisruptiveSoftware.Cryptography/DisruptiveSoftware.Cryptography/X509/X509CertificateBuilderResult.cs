@@ -17,7 +17,7 @@
 
         protected AsymmetricKeyParameter PrivateKey { get; }
 
-        public byte[] ExportCertificate(SecureString password, string alias = "Certificate")
+        public byte[] ExportCertificate(SecureString? password, string alias = "Certificate")
         {
             return Certificate.ExportCertificate(password, PrivateKey, alias);
         }

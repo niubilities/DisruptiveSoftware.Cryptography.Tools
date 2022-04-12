@@ -5,12 +5,13 @@
 
     public static class SecureStringExtensions
     {
-        public static string SecureStringToString(this SecureString? secureStr)
+        public static string? SecureStringToString(this SecureString? secureStr)
         {
-            if (secureStr == null || secureStr.Length == 0) return string.Empty;
+            if (secureStr == null) return null;
+            if (secureStr.Length == 0) return string.Empty;
 
             var ptr = IntPtr.Zero;
-            string result;
+            string? result;
 
             try
             {
@@ -25,13 +26,14 @@
             return result;
         }
 
-        public static char[] ToCharArray(this SecureString value)
+        public static char[]? ToCharArray(this SecureString? value)
         {
-            return SecureStringToString(value).ToCharArray();
+            return SecureStringToString(value)?.ToCharArray();
         }
 
-        public static SecureString ToSecureString(this string str)
+        public static SecureString? ToSecureString(this string? str)
         {
+            if (str == null) return null;
             var secureString = new SecureString();
 
             foreach (var c in str) secureString.AppendChar(c);

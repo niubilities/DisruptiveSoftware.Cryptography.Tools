@@ -11,7 +11,7 @@
 
     public static class CertificateUtils
     {
-        public static byte[]? ExportPrivateKey(byte[] certificateData, SecureString certificatePassword)
+        public static byte[]? ExportPrivateKey(byte[] certificateData, SecureString? certificatePassword)
         {
             var privateKey = ExportPrivateKeyToPEM(certificateData, certificatePassword);
 
@@ -58,7 +58,7 @@
             return pemWriter.Writer.ToString();
         }
 
-        public static string ExportPrivateKeyToPEM(byte[] certificateData, SecureString certificatePassword)
+        public static string ExportPrivateKeyToPEM(byte[] certificateData, SecureString? certificatePassword)
         {
             using var x509Certificate2 = new X509Certificate2(
                 certificateData,
@@ -73,7 +73,7 @@
             return ExportPrivateKeyToPEM(rsa);
         }
 
-        public static byte[]? ExportPublicKeyCertificate(byte[] certificateData, SecureString certificatePassword)
+        public static byte[]? ExportPublicKeyCertificate(byte[] certificateData, SecureString? certificatePassword)
         {
             using var x509Certificate2 = new X509Certificate2(certificateData, certificatePassword);
 
@@ -81,7 +81,7 @@
         }
 
         public static string ExportPublicKeyCertificateToBase64(byte[] certificateData,
-            SecureString certificatePassword)
+            SecureString? certificatePassword)
         {
             return Convert.ToBase64String(ExportPublicKeyCertificate(certificateData, certificatePassword));
         }
@@ -97,7 +97,7 @@
             return pemWriter.Writer?.ToString();
         }
 
-        public static string ExportPublicKeyCertificateToPEM(byte[] certificateData, SecureString certificatePassword)
+        public static string ExportPublicKeyCertificateToPEM(byte[] certificateData, SecureString? certificatePassword)
         {
             var stringBuilder = new StringBuilder();
 

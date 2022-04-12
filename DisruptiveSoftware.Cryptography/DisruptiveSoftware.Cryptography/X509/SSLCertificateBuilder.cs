@@ -21,7 +21,7 @@ namespace DisruptiveSoftware.Cryptography.X509
         protected bool IsServerAuthKeyUsage { get; private set; }
 
         protected byte[] IssuerCertificate { get; private set; }
-        protected SecureString IssuerCertificatePassword { get; private set; }
+        protected SecureString? IssuerCertificatePassword { get; private set; }
         protected IList<string> SubjectAlternativeNames { get; private set; }
 
         public override X509CertificateBuilderResult Build()
@@ -130,7 +130,7 @@ namespace DisruptiveSoftware.Cryptography.X509
         }
 
         public SslCertificateBuilder SetIssuerCertificate(byte[] issuerCertificate,
-            SecureString issuerCertificatePassword)
+            SecureString? issuerCertificatePassword)
         {
             IssuerCertificate = issuerCertificate;
             IssuerCertificatePassword = issuerCertificatePassword;

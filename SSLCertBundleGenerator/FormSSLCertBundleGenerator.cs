@@ -2,6 +2,7 @@
 
 namespace SSLCertBundleGenerator
 {
+    using System.Security;
     using DisruptiveSoftware.Cryptography.BouncyCastle.Extensions;
     using DisruptiveSoftware.Cryptography.Extensions;
     using DisruptiveSoftware.Cryptography.X509;
@@ -146,9 +147,13 @@ namespace SSLCertBundleGenerator
                             .SetNotBefore(now)
                             .SetNotAfter(now.AddMonths(validityInMonths))
                             .Build();
-
+                        SecureString? password=null;
+                        if (string.IsNullOrWhiteSpace(textBoxPassword.Text))
+                        {
+                            password = textBoxPassword.Text.ToSecureString();
+                        }
                         var pkcs12Data =
-                            certificateBuilderResult.ExportCertificate(textBoxPassword.Text.ToSecureString());
+                            certificateBuilderResult.ExportCertificate(password);
 
                         var sslCertificateBuilder = new SslCertificateBuilder()
                             .WithSerialNumberConfiguration(checkBoxRandomSerialNumber.Checked, serialNumber)
@@ -156,7 +161,7 @@ namespace SSLCertBundleGenerator
                             .SetSubjectDn(textBoxCN.Text, textBoxOU.Text, textBoxO.Text, null, textBoxC.Text)
                             .SetNotBefore(now)
                             .SetNotAfter(now.AddMonths(validityInMonths))
-                            .SetIssuerCertificate(pkcs12Data, textBoxPassword.Text.ToSecureString());
+                            .SetIssuerCertificate(pkcs12Data, password);
 
                         if (checkBoxClientAuthentication.Checked)
                             sslCertificateBuilder = sslCertificateBuilder.SetClientAuthKeyUsage();
@@ -180,7 +185,7 @@ namespace SSLCertBundleGenerator
                         }
 
                         var sslPkcs12Data =
-                            sslCertificateBuilderResult.ExportCertificate(textBoxPassword.Text.ToSecureString());
+                            sslCertificateBuilderResult.ExportCertificate(password);
 
                         File.WriteAllBytes(Path.Combine(savePath, "sslCertificate.p12"), sslPkcs12Data);
 
@@ -250,7 +255,7 @@ namespace SSLCertBundleGenerator
             result &= textBoxO.IsValid(ValidationRules.Required);
             result &= textBoxC.IsValid(ValidationRules.Required);
             result &= numericUpDownSerialNumber.IsValid(ValidationRules.Required);
-            result &= textBoxPassword.IsValid(ValidationRules.Required);
+            //result &= textBoxPassword.IsValid(ValidationRules.Required);
             result &= textBoxSavePath.IsValid(ValidationRules.Required);
 
             return result;
