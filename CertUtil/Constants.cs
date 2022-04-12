@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace CertUtil
+﻿namespace CertUtil
 {
     public static class Constants
     {

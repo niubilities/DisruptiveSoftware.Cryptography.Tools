@@ -1,6 +1,6 @@
 ﻿namespace SSLCertBundleGenerator
 {
-    partial class FormSSLCertBundleGenerator
+    partial class FormSslCertBundleGenerator
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSSLCertBundleGenerator));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSslCertBundleGenerator));
             this.groupBoxSSLOptions = new System.Windows.Forms.GroupBox();
             this.pictureBoxInfo = new System.Windows.Forms.PictureBox();
             this.checkBoxClientAuthentication = new System.Windows.Forms.CheckBox();
@@ -488,7 +488,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mainMenu;
             this.MaximizeBox = false;
-            this.Name = "FormSSLCertBundleGenerator";
+            this.Name = "FormSslCertBundleGenerator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SSLCertBundleGenerator {version}";
             this.groupBoxSSLOptions.ResumeLayout(false);

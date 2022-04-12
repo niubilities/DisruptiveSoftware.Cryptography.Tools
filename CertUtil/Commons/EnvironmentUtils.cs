@@ -1,40 +1,29 @@
-﻿using CertUtil.Windows;
-using System;
-using System.Reflection;
-
-namespace CertUtil.Commons
+﻿namespace CertUtil.Commons
 {
+    using System.Reflection;
+    using CertUtil.Windows;
+
     public static class EnvironmentUtils
     {
-        public static bool IsMonoRuntime()
-        {
-            return Type.GetType("Mono.Runtime") != null;
-        }
-
-        public static string GetMonoRuntimeVersion()
+        public static string? GetMonoRuntimeVersion()
         {
             var type = Type.GetType("Mono.Runtime");
 
-            if (type == null)
-            {
-                return null;
-            }
+            if (type == null) return null;
 
             var displayName = type.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static);
 
-            if (displayName == null)
-            {
-                return null;
-            }
+            if (displayName == null) return null;
 
-            return string.Format("{0}", displayName.Invoke(null, null));
+            return $@"{displayName.Invoke(null, null)}";
         }
 
-        public static bool IsUnix()
+        public static bool IsAtLeastWindows10()
         {
-            var pId = (int)Environment.OSVersion.Platform;
+            if (int.TryParse(RegistryUtils.GetCurrentMajorVersionNumber(), out var majorVersionNumber))
+                return majorVersionNumber >= 10;
 
-            return ((pId == 4) || (pId == 6) || (pId == 128));
+            return false;
         }
 
         public static bool IsAtLeastWindowsVista()
@@ -42,14 +31,16 @@ namespace CertUtil.Commons
             return Environment.OSVersion.Version.Major >= 6;
         }
 
-        public static bool IsAtLeastWindows10()
+        public static bool IsMonoRuntime()
         {
-            if (int.TryParse(RegistryUtils.GetCurrentMajorVersionNumber(), out int majorVersionNumber))
-            {
-                return majorVersionNumber >= 10;
-            }
+            return Type.GetType("Mono.Runtime") != null;
+        }
 
-            return false;
+        public static bool IsUnix()
+        {
+            var pId = (int)Environment.OSVersion.Platform;
+
+            return pId == 4 || pId == 6 || pId == 128;
         }
     }
 }

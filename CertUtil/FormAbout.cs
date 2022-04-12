@@ -1,9 +1,9 @@
-﻿using CertUtil.Commons;
-using System.Diagnostics;
-using System.Windows.Forms;
-
-namespace CertUtil
+﻿namespace CertUtil
 {
+    using System.Diagnostics;
+    using CertUtil.Commons;
+    using CertUtil.Properties;
+
     public partial class FormAbout : Form
     {
         public FormAbout()
@@ -12,38 +12,42 @@ namespace CertUtil
 
             var version = AssemblyUtils.GetProductVersion();
 
-            this.labelVersion.Text = this.labelVersion.Text.Replace("{version}", version);
-            this.richTextBoxCopyright.Text = this.richTextBoxCopyright.Text.Replace("{bouncyCastleCryptoLibVersion}", AssemblyUtils.GetVersion("BouncyCastle.Crypto").ToString());
-            this.richTextBoxCopyright.Text = this.richTextBoxCopyright.Text.Replace("{disruptiveSoftwareCryptographyLibVersion}", AssemblyUtils.GetVersion("DisruptiveSoftware.Cryptography").ToString());
+            labelVersion.Text = labelVersion.Text.Replace("{version}", version);
 
-            this.KeyDown += new KeyEventHandler(FormAbout_KeyPress);
+            richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace(
+                "{bouncyCastleCryptoLibVersion}",
+                AssemblyUtils.GetVersion("BouncyCastle.Crypto")?.ToString());
 
-            this.richTextBoxCopyright.LinkClicked += new LinkClickedEventHandler(RichTextBoxCopyright_LinkClicked);
-            this.linkLabelContact.LinkClicked += new LinkLabelLinkClickedEventHandler(this.LinkLabelContact_LinkClicked);
-            this.linkLabelSource.LinkClicked += new LinkLabelLinkClickedEventHandler(this.LinkLabelSource_LinkClicked);
+            richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace(
+                "{disruptiveSoftwareCryptographyLibVersion}",
+                AssemblyUtils.GetVersion("DisruptiveSoftware.Cryptography")?.ToString());
+
+            KeyDown += FormAbout_KeyPress;
+
+            richTextBoxCopyright.LinkClicked += RichTextBoxCopyright_LinkClicked;
+            linkLabelContact.LinkClicked += LinkLabelContact_LinkClicked;
+            linkLabelSource.LinkClicked += LinkLabelSource_LinkClicked;
         }
 
         private void FormAbout_KeyPress(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Escape)
-            {
-                this.Close();
-            }
-        }
-
-        private void RichTextBoxCopyright_LinkClicked(object sender, LinkClickedEventArgs e)
-        {
-            Process.Start(e.LinkText);
+            if (e.KeyCode == Keys.Escape) Close();
         }
 
         private void LinkLabelContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(string.Format("mailto:{0}?subject=About {1} v{2}", this.linkLabelContact.Text, Properties.Resources.Title, AssemblyUtils.GetVersion()));
+            Process.Start(
+                $"mailto:{linkLabelContact.Text}?subject=About {Resources.Title} v{AssemblyUtils.GetVersion()}");
         }
 
         private void LinkLabelSource_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/cristianst85/DisruptiveSoftware.Cryptography.Tools");
+        }
+
+        private void RichTextBoxCopyright_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            Process.Start(e.LinkText ?? string.Empty);
         }
     }
 }

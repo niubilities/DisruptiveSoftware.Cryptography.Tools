@@ -1,36 +1,34 @@
-﻿using System.Collections.Generic;
-
-namespace CertUtil
+﻿namespace CertUtil
 {
     public static class CertUtilConstants
     {
-        public enum CryptographicObjectType
+        // Object Formats.
+        public static readonly Dictionary<string, CryptographicObjectType> CryptographicObjects = new()
         {
-            PublicKeyCertificate,
+            { "Public Key Certificate", CryptographicObjectType.PublicKeyCertificate },
+            { "Private Key (no password)", CryptographicObjectType.PrivateKey }
+        };
 
-            PrivateKey
+        // Private Key Formats.
+        public static readonly Dictionary<string, string> PrivateKeyFormats = new()
+        {
+            { "Base64 DER encoded (*.key)", "*.key" },
+            { "Binary DER encoded (*.key)", "*.key" }
         };
 
         // Public Key Certificate Formats.
-        public static readonly Dictionary<string, string> PublicKeyCertificatesFormats = new Dictionary<string, string>()
+        public static readonly Dictionary<string, string> PublicKeyCertificatesFormats = new()
         {
             { "Base64 DER encoded (*.pem)", "*.pem" },
             { "Binary DER encoded (*.crt)", "*.crt" },
             { "Binary DER encoded (*.cer)", "*.cer" }
         };
 
-        // Private Key Formats.
-        public static readonly Dictionary<string, string> PrivateKeyFormats = new Dictionary<string, string>()
+        public enum CryptographicObjectType
         {
-            { "Base64 DER encoded (*.key)", "*.key" },
-            { "Binary DER encoded (*.key)", "*.key" }
-        };
+            PublicKeyCertificate,
 
-        // Object Formats.
-        public static readonly Dictionary<string, CryptographicObjectType> CryptographicObjects = new Dictionary<string, CryptographicObjectType>()
-        {
-            { "Public Key Certificate", CryptographicObjectType.PublicKeyCertificate },
-            { "Private Key (no password)", CryptographicObjectType.PrivateKey }
-        };
+            PrivateKey
+        }
     }
 }

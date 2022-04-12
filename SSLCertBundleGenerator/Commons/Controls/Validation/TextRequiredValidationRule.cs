@@ -1,10 +1,8 @@
-﻿using DisruptiveSoftware.Cryptography.Extensions;
-using SSLCertBundleGenerator.Commons.Controls.Validation.Impl;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace SSLCertBundleGenerator.Commons.Controls.Validation
+﻿namespace SSLCertBundleGenerator.Commons.Controls.Validation
 {
+    using DisruptiveSoftware.Cryptography.Extensions;
+    using SSLCertBundleGenerator.Commons.Controls.Validation.Impl;
+
     public class TextRequiredValidationRule : IControlValidationRule
     {
         public virtual bool IsValid(Control control)
@@ -12,13 +10,13 @@ namespace SSLCertBundleGenerator.Commons.Controls.Validation
             if (control.Text.IsNullOrEmpty())
             {
                 InvalidateControl(control);
+
                 return false;
             }
-            else
-            {
-                ValidateControl(control);
-                return true;
-            }
+
+            ValidateControl(control);
+
+            return true;
         }
 
         protected virtual void InvalidateControl(Control control)

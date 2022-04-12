@@ -1,23 +1,10 @@
-﻿using SSLCertBundleGenerator.Commons.Controls.Validation.Impl;
-
-namespace SSLCertBundleGenerator.Commons.Controls.Validation
+﻿namespace SSLCertBundleGenerator.Commons.Controls.Validation
 {
+    using SSLCertBundleGenerator.Commons.Controls.Validation.Impl;
+
     public static class ValidationRules
     {
-        public static IControlValidationRule Required
-        {
-            get
-            {
-                return new TextRequiredValidationRule();
-            }
-        }
-
-        public static IControlValidationRule DirectoryExists
-        {
-            get
-            {
-                return new DirectoryExistsValidationRule();
-            }
-        }
+        public static IControlValidationRule DirectoryExists => new DirectoryExistsValidationRule();
+        public static IControlValidationRule Required => new TextRequiredValidationRule();
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace DisruptiveSoftware.Cryptography.Tests.Utils
 {
-    using System;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -28,7 +27,7 @@
             return Path.Combine(TestContext.CurrentContext.TestDirectory, file);
         }
 
-        public static byte[] GetResource(string resourceFullPathName)
+        private static byte[] GetResource(string resourceFullPathName)
         {
             var assembly = Assembly.GetExecutingAssembly();
             using var stream = assembly.GetManifestResourceStream(resourceFullPathName);
@@ -48,21 +47,21 @@
         private const string Test1BinaryFormat = "test1binaryformat";
         private const string Test1ClientAuthenticationNoBinaryFormat = "test1_clientAuthentication_nobinaryformat";
 
-        public static byte[] GetResourceFromTestData(string resourceName)
+        private static byte[] GetResourceFromTestData(string resourceName)
         {
             return GetResource($"DisruptiveSoftware.Cryptography.Tests.TestData.{resourceName}");
         }
 
-        public static byte[] DataCaCrtBinaryFormat =>
+        private static byte[] DataCaCrtBinaryFormat =>
             GetResourceFromTestData($"{Test1BinaryFormat}.caCertificate.crt");
 
-        public static byte[] DataSslCrtBinaryFormat =>
+        private static byte[] DataSslCrtBinaryFormat =>
             GetResourceFromTestData($"{Test1BinaryFormat}.sslCertificate.crt");
 
-        public static byte[] DataCaCerBinaryFormat =>
+        private static byte[] DataCaCerBinaryFormat =>
             GetResourceFromTestData($"{Test1BinaryFormat}.caCertificate.cer");
 
-        public static byte[] DataSslCerBinaryFormat =>
+        private static byte[] DataSslCerBinaryFormat =>
             GetResourceFromTestData($"{Test1BinaryFormat}.sslCertificate.cer");
 
         private static byte[] DataCaP12NoBinaryFormat =>
@@ -224,7 +223,7 @@
         [Test]
         public void ExportPublicKeyToPEM_StateUnderTest_ExpectedBehavior()
         {
-            // Arrange
+            // Arrange   
             //need a file without password
             var certificateData = DataSslCrtBinaryFormat;
 
@@ -234,7 +233,7 @@
 
             // Assert 
 
-            // result.ShouldBe("");
+            result.ShouldBe(ResultConstants.DataSslCrtBinaryFormatPublicKeyPEM);
         }
 
         [Test]
@@ -325,7 +324,7 @@
                 snkPublicKey);
 
             // Assert
-            Convert.ToHexString(result).ShouldBe("6CADB13A5BD8AAED");
+            result.ShouldBe("6CADB13A5BD8AAED");
         }
     }
 }

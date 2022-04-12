@@ -1,10 +1,8 @@
-﻿using DisruptiveSoftware.Cryptography.Extensions;
-using CertUtil.Commons.Controls.Validation.Impl;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace CertUtil.Commons.Controls.Validation
+﻿namespace CertUtil.Commons.Controls.Validation
 {
+    using CertUtil.Commons.Controls.Validation.Impl;
+    using DisruptiveSoftware.Cryptography.Extensions;
+
     public class TextRequiredValidationRule : IControlValidationRule
     {
         public virtual bool IsValid(Control control)
@@ -12,13 +10,13 @@ namespace CertUtil.Commons.Controls.Validation
             if (control.Text.IsNullOrEmpty())
             {
                 InvalidateControl(control);
+
                 return false;
             }
-            else
-            {
-                ValidateControl(control);
-                return true;
-            }
+
+            ValidateControl(control);
+
+            return true;
         }
 
         protected virtual void InvalidateControl(Control control)

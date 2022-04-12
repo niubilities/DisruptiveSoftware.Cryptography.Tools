@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace SSLCertBundleGenerator
+﻿namespace SSLCertBundleGenerator
 {
     public static class Constants
     {

@@ -2,7 +2,7 @@
 {
     public static class Constants
     {
-        public static class RSAKeySize
+        public static class RsaKeySize
         {
             public const int KeySize1024 = 1024;
 

@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Windows.Forms;
-
-namespace CertUtil.Commons.Controls.Validation
+﻿namespace CertUtil.Commons.Controls.Validation
 {
     public class FileExistsValidationRule : TextRequiredValidationRule
     {
@@ -9,20 +6,14 @@ namespace CertUtil.Commons.Controls.Validation
         {
             if (base.IsValid(control))
             {
-                if (File.Exists(control.Text))
-                {
-                    return true;
-                }
-                else
-                {
-                    InvalidateControl(control);
-                    return false;
-                }
-            }
-            else
-            {
+                if (File.Exists(control.Text)) return true;
+
+                InvalidateControl(control);
+
                 return false;
             }
+
+            return false;
         }
     }
 }
