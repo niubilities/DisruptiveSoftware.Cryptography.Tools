@@ -1,22 +1,15 @@
-﻿using DisruptiveSoftware.Cryptography.Utils;
-using NUnit.Framework;
-using Shouldly;
-using System;
-using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.InteropServices.ComTypes;
-using System.Linq;
-using System.Linq.Expressions;
-
-
-
-namespace DisruptiveSoftware.Cryptography.Tests.Utils
+﻿namespace DisruptiveSoftware.Cryptography.Tests.Utils
 {
+    using System;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Security;
-    using System.Security.Cryptography;
-    using NUnit.Framework.Internal;
+    using DisruptiveSoftware.Cryptography.Tests.Extensions;
+    using DisruptiveSoftware.Cryptography.Tests.TestData;
+    using DisruptiveSoftware.Cryptography.Utils;
+    using NUnit.Framework;
+    using Shouldly;
 
     [TestFixture]
     public class CertificateUtilsTests
@@ -24,11 +17,9 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         [SetUp]
         public void Setup()
         {
-
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="file">e.x.  @"Files\test.pdf"</param>
         /// <returns></returns>
@@ -37,49 +28,73 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
             return Path.Combine(TestContext.CurrentContext.TestDirectory, file);
         }
 
-        public static byte[] GetResource(string resouceFullPathName)
+        public static byte[] GetResource(string resourceFullPathName)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            using var stream = assembly.GetManifestResourceStream(resouceFullPathName);
+            using var stream = assembly.GetManifestResourceStream(resourceFullPathName);
 
             if (stream != null)
             {
-
-                byte[] buffer = new byte[stream.Length];
+                var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
+
                 return buffer;
             }
+
             return null;
         }
-        public static byte[] GetResourceFromTestData(string resouceName)
+
+        private const string Test1NoBinaryFormat = "test1nobinaryformat";
+        private const string Test1BinaryFormat = "test1binaryformat";
+        private const string Test1ClientAuthenticationNoBinaryFormat = "test1_clientAuthentication_nobinaryformat";
+
+        public static byte[] GetResourceFromTestData(string resourceName)
         {
-            return GetResource($"DisruptiveSoftware.Cryptography.Tests.TestData.{resouceName}");
+            return GetResource($"DisruptiveSoftware.Cryptography.Tests.TestData.{resourceName}");
         }
 
+        public static byte[] DataCaCrtBinaryFormat =>
+            GetResourceFromTestData($"{Test1BinaryFormat}.caCertificate.crt");
 
-        private static byte[] GetCaCertificateData => GetResourceFromTestData("caCertificate.p12");
-        private static byte[] GetSslCertificateData => GetResourceFromTestData("sslCertificate.p12");
-        private static byte[] GetSnkCertificateData => GetResourceFromTestData("test.snk");
-        private static SecureString GetSecureString => "123456".Aggregate(new SecureString(), (seed, b) =>
+        public static byte[] DataSslCrtBinaryFormat =>
+            GetResourceFromTestData($"{Test1BinaryFormat}.sslCertificate.crt");
+
+        public static byte[] DataCaCerBinaryFormat =>
+            GetResourceFromTestData($"{Test1BinaryFormat}.caCertificate.cer");
+
+        public static byte[] DataSslCerBinaryFormat =>
+            GetResourceFromTestData($"{Test1BinaryFormat}.sslCertificate.cer");
+
+        private static byte[] DataCaP12NoBinaryFormat =>
+            GetResourceFromTestData($"{Test1NoBinaryFormat}.caCertificate.p12");
+        private static byte[] DataSslP12NoBinaryFormat =>
+            GetResourceFromTestData($"{Test1NoBinaryFormat}.sslCertificate.p12");
+        private static byte[] DataSnk => GetResourceFromTestData("test.snk");
+
+        private static SecureString GetSecureString => "123456".Aggregate(
+            new SecureString(),
+            (seed, b) =>
             {
                 seed.AppendChar(b);
+
                 return seed;
             });
+
         [Test]
         public void ExportPrivateKey_StateUnderTest_ExpectedBehavior()
         {
             // Arrange
 
-            byte[] caCertificateData = GetCaCertificateData;
-            SecureString certificatePassword = GetSecureString;
+            var caCertificateData = DataCaP12NoBinaryFormat;
+            var certificatePassword = GetSecureString;
+
             // Act
             var result = CertificateUtils.ExportPrivateKey(
                 caCertificateData,
                 certificatePassword);
 
-
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataCaP12NoBinaryFormatPrivateKey);
         }
 
         [Test]
@@ -87,16 +102,15 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] certificateData = GetCaCertificateData;
-            SecureString certificatePassword = GetSecureString;
-
+            var certificateData = DataCaP12NoBinaryFormat;
+            var certificatePassword = GetSecureString;
 
             var result = CertificateUtils.ExportPrivateKeyAsXMLString(
                 certificateData,
                 certificatePassword);
 
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataCaP12NoBinaryFormatPrivateKeyXml);
         }
 
         [Test]
@@ -104,9 +118,8 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] certificateData = GetCaCertificateData;
-            SecureString certificatePassword = GetSecureString;
-
+            var certificateData = DataCaP12NoBinaryFormat;
+            var certificatePassword = GetSecureString;
 
             // Act
             var result = CertificateUtils.ExportPrivateKeyToPEM(
@@ -114,7 +127,7 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
                 certificatePassword);
 
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataCaP12NoBinaryFormatPrivateKeyPEM);
         }
 
         [Test]
@@ -122,9 +135,8 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] certificateData = GetCaCertificateData;
-            SecureString certificatePassword = GetSecureString;
-
+            var certificateData = DataCaP12NoBinaryFormat;
+            var certificatePassword = GetSecureString;
 
             // Act
             var result = CertificateUtils.ExportPublicKeyCertificate(
@@ -132,7 +144,7 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
                 certificatePassword);
 
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataCaP12NoBinaryFormatPublicKey);
         }
 
         [Test]
@@ -140,8 +152,8 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] certificateData = GetCaCertificateData;
-            SecureString certificatePassword = GetSecureString;
+            var certificateData = DataCaCrtBinaryFormat;
+            var certificatePassword = GetSecureString;
 
             // Act
             var result = CertificateUtils.ExportPublicKeyCertificateToBase64(
@@ -149,7 +161,7 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
                 certificatePassword);
 
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataCaCrtBinaryFormatPublicKeyBase64);
         }
 
         [Test]
@@ -157,14 +169,29 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
             //need a file without password
-            byte[] certificateData = GetSslCertificateData;
+            var certificateData = DataCaCerBinaryFormat;
 
             // Act
             var result = CertificateUtils.ExportPublicKeyCertificateToPEM(
                 certificateData);
 
             // Assert
-            //result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataCaCrtOrCerDataBinaryFormatPublicKeyPEM);
+
+            certificateData = DataCaCrtBinaryFormat;
+
+            result = CertificateUtils.ExportPublicKeyCertificateToPEM(
+                certificateData);
+
+            result.ShouldBe(ResultConstants.DataCaCrtOrCerDataBinaryFormatPublicKeyPEM);
+            //
+
+            certificateData = DataSslCerBinaryFormat;
+
+            result = CertificateUtils.ExportPublicKeyCertificateToPEM(
+                certificateData);
+
+            result.ShouldBe(ResultConstants.DataSslCerDataBinaryFormatPublicKeyPEM);
         }
 
         [Test]
@@ -172,8 +199,8 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] certificateData = GetCaCertificateData;
-            SecureString certificatePassword = GetSecureString;
+            var certificateData = DataCaP12NoBinaryFormat;
+            var certificatePassword = GetSecureString;
 
             // Act
             var result = CertificateUtils.ExportPublicKeyCertificateToPEM(
@@ -181,18 +208,17 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
                 certificatePassword);
 
             // Assert
-            result.ShouldNotBeEmpty();
-            //result.ShouldBe("");
+            result.ShouldBe(ResultConstants.DataCaP12NoBinaryFormatPublicKeyPEM);
 
-            certificateData = GetSslCertificateData;
+            certificateData = DataSslP12NoBinaryFormat;
 
             // Act
             result = CertificateUtils.ExportPublicKeyCertificateToPEM(
-              certificateData,
-              certificatePassword);
+                certificateData,
+                certificatePassword);
 
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataSslP12NoBinaryFormatPublicKeyPEM);
         }
 
         [Test]
@@ -200,7 +226,7 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
             //need a file without password
-            byte[] certificateData = GetCaCertificateData;
+            var certificateData = DataSslCrtBinaryFormat;
 
             // Act
             var result = CertificateUtils.ExportPublicKeyToPEM(
@@ -208,8 +234,7 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
 
             // Assert 
 
-           // result.ShouldNotBeEmpty();
-
+            // result.ShouldBe("");
         }
 
         [Test]
@@ -217,15 +242,14 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] certificateData = GetSnkCertificateData;
+            var certificateData = DataSnk;
 
             // Act
             var result = CertificateUtils.ExportSnkPrivateKey(
                 certificateData);
 
             // Assert
-            result.ShouldNotBeEmpty();
-            
+            result.ShouldBe(ResultConstants.DataSnkPrivateKey);
         }
 
         [Test]
@@ -233,30 +257,15 @@ namespace DisruptiveSoftware.Cryptography.Tests.Utils
         {
             // Arrange
 
-            byte[] snkCertificateData = GetSnkCertificateData;
+            var snkCertificateData = DataSnk;
 
             // Act
             var result = CertificateUtils.ExportSnkPrivateKeyToPEM(
                 snkCertificateData);
 
-            // Assert
-            result.ShouldNotBeEmpty();
-            result.ShouldBe($@"-----BEGIN RSA PRIVATE KEY-----
-MIICWwIBAAKBgQDdaTOaR7btN54IqXoPNBwDdZrf5dFLHATDsq88KNpm2ZFwQkcZ
-nWuFRhVw0CQgEEvEVN9huk8IKloZ8sKh71O5obXSsww6gIq8otEAdzsUlx0t8o8V
-Hih3XFpWWkBRYtdE5QmGjU1J/KmQ/4PXKWUbAy03PKBEhoj/Uhc81gLh+QIDAQAB
-AoGBAMzGkMBfFXNeXh46yLYpBsO4UI5FmoWyG0H4EBQ+4IgBL384/VNWgewYPppB
-FzhEeh7SNGvJiXDO4the6t4kYDR2G5LFdaTkvbERJ8/Cpm3ydMb4zEKZ547xht82
-A5CDr6juriDWDu22ip4iNPs7nsFcJcaKNBkExecOxTTs8IfFAkEA5pSXgEbJBe71
-erfaIJpIs+r/B62n/kB7iOhgQ2ySKqIor3xpTs5oLVd24MQJf2YJc9cpzA956eKU
-bKsYQ4qDXwJBAPXR1GOscVrWNPboTzLvMwN5KoXKK36lviH4NPTpyp4mVW6i0ihc
-dhzHUqgnBAw38DYgX3gMBjb4IF17tB2+MacCQHqhln2jp/Ae6bGtrDXguD/wAFju
-E8WWN91VcTUKviYsfiTurvc5sZBDzza1LDP0aZyRV2pu5LDuT3AIAuyQ81MCP3ro
-b0lm70Z70/+gJ/lPoDIcYyaB7z1joa1abSAHxUdN42lt/6YulN/OyYVJ/LwfO/vU
-M+fSG0lgxs33DBfTAQJAUP8KNyAFDtoIqr1rC1K2Dp0cINJ6y+WulBgJh7czkGYG
-+/SmEjdGMlW+imO0keQNiMVZzKcgbVtAxOxNeWaYaQ==
------END RSA PRIVATE KEY-----
-");
+            result.ShouldBe(
+                ResultConstants.DataSnkPrivateKeyPEM
+            );
         }
 
         [Test]
@@ -264,14 +273,14 @@ M+fSG0lgxs33DBfTAQJAUP8KNyAFDtoIqr1rC1K2Dp0cINJ6y+WulBgJh7czkGYG
         {
             // Arrange
 
-            byte[] snkCertificateData = GetSnkCertificateData;
+            var snkCertificateData = DataSnk;
 
             // Act
             var result = CertificateUtils.ExportSnkPublicKeyCertificate(
                 snkCertificateData);
 
             // Assert
-            result.ShouldNotBeEmpty();
+            result.ShouldBe(ResultConstants.DataSnkPublicKeyYyyFormat);
         }
 
         [Test]
@@ -279,21 +288,13 @@ M+fSG0lgxs33DBfTAQJAUP8KNyAFDtoIqr1rC1K2Dp0cINJ6y+WulBgJh7czkGYG
         {
             // Arrange
 
-            byte[] certificateData = GetSnkCertificateData;
+            var certificateData = DataSnk;
 
             // Act
             var result = CertificateUtils.ExportSnkPublicKeyToPEM(
                 certificateData);
 
-            // Assert
-            result.ShouldNotBeEmpty();
-            result.ShouldBe(@"-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdaTOaR7btN54IqXoPNBwDdZrf
-5dFLHATDsq88KNpm2ZFwQkcZnWuFRhVw0CQgEEvEVN9huk8IKloZ8sKh71O5obXS
-sww6gIq8otEAdzsUlx0t8o8VHih3XFpWWkBRYtdE5QmGjU1J/KmQ/4PXKWUbAy03
-PKBEhoj/Uhc81gLh+QIDAQAB
------END PUBLIC KEY-----
-");
+            result.ShouldBe(ResultConstants.DataSnkPublicKeyPEM);
         }
 
         [Test]
@@ -301,15 +302,14 @@ PKBEhoj/Uhc81gLh+QIDAQAB
         {
             // Arrange
 
-            byte[] snkData = GetSnkCertificateData;
+            var snkData = DataSnk;
 
             // Act
             var result = CertificateUtils.GetPublicKey(
                 snkData);
 
             // Assert 
-            result.ShouldNotBeEmpty();
-            
+            result.ShouldBe(ResultConstants.DataSnkPublicKeyXxxFormat);
         }
 
         [Test]
@@ -317,14 +317,15 @@ PKBEhoj/Uhc81gLh+QIDAQAB
         {
             // Arrange
 
-            byte[] snkPublicKey = null;
+            var snkPublicKey = CertificateUtils.GetPublicKey(
+                DataSnk);
 
             // Act
             var result = CertificateUtils.GetPublicKeyToken(
                 snkPublicKey);
 
             // Assert
-            Assert.Fail();
+            Convert.ToHexString(result).ShouldBe("6CADB13A5BD8AAED");
         }
     }
 }

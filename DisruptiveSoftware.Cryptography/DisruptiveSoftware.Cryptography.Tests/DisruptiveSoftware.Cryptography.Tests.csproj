@@ -4,13 +4,31 @@
      <TargetFramework>net6</TargetFramework>
   </PropertyGroup>
    <ItemGroup>
-     <None Remove="TestData\caCertificate.p12" />
-     <None Remove="TestData\sslCertificate.p12" />
      <None Remove="TestData\test.snk" />
+     <None Remove="TestData\test1binaryformat\caCertificate.cer" />
+     <None Remove="TestData\test1binaryformat\caCertificate.crt" />
+     <None Remove="TestData\test1binaryformat\caCertificate.p12" />
+     <None Remove="TestData\test1binaryformat\sslCertificate.cer" />
+     <None Remove="TestData\test1binaryformat\sslCertificate.crt" />
+     <None Remove="TestData\test1binaryformat\sslCertificate.p12" />
+     <None Remove="TestData\test1nobinaryformat\caCertificate.p12" />
+     <None Remove="TestData\test1nobinaryformat\sslCertificate.p12" />
+     <None Remove="TestData\test1_clientAuthentication_nobinaryformat\caCertificate.p12" />
+     <None Remove="TestData\test1_clientAuthentication_nobinaryformat\sslCertificate.p12" />
    </ItemGroup>
    <ItemGroup>
-     <EmbeddedResource Include="TestData\caCertificate.p12" />
-     <EmbeddedResource Include="TestData\sslCertificate.p12" />
+     <EmbeddedResource Include="TestData\test1binaryformat\caCertificate.cer" />
+     <EmbeddedResource Include="TestData\test1binaryformat\caCertificate.crt" />
+     <EmbeddedResource Include="TestData\test1binaryformat\caCertificate.p12" />
+     <EmbeddedResource Include="TestData\test1binaryformat\sslCertificate.cer" />
+     <EmbeddedResource Include="TestData\test1binaryformat\sslCertificate.crt" />
+     <EmbeddedResource Include="TestData\test1binaryformat\sslCertificate.p12" />
+     <EmbeddedResource Include="TestData\test1nobinaryformat\caCertificate.p12" />
+     <EmbeddedResource Include="TestData\test1nobinaryformat\sslCertificate.p12" />
+     <EmbeddedResource Include="TestData\test1_clientAuthentication_nobinaryformat\caCertificate.p12" />
+     <EmbeddedResource Include="TestData\test1_clientAuthentication_nobinaryformat\sslCertificate.p12" />
+   </ItemGroup>
+   <ItemGroup>
      <EmbeddedResource Include="TestData\test.snk" />
    </ItemGroup>
   <ItemGroup>

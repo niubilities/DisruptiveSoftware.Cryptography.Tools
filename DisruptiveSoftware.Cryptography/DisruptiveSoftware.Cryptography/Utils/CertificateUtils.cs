@@ -151,6 +151,7 @@ public static class CertificateUtils
   {
     using var textWriter = new StringWriter();
     var x509CertificateParser = new X509CertificateParser();
+    
     var x509Certificate = x509CertificateParser.ReadCertificate(certificateData);
     var asymmetricKeyParameter = x509Certificate.GetPublicKey();
     var pemWriter = new PemWriter(textWriter);
@@ -168,7 +169,7 @@ public static class CertificateUtils
 
     var stringBuilder = new StringBuilder();
 
-    foreach (var pemLine in privateKey.Split('\n'))
+    foreach (var pemLine in privateKey?.Split('\n')!)
     {
       // Trim padding CR and white spaces.
       var line = pemLine.TrimEnd('\r').Trim();
@@ -190,7 +191,7 @@ public static class CertificateUtils
 
   public static byte[] ExportSnkPublicKeyCertificate(byte[] snkCertificateData)
   {
-    var publicKey = ExportSnkPrivateKeyToPEM(snkCertificateData);
+    var publicKey = ExportSnkPublicKeyToPEM(snkCertificateData);
 
     // Certificate does not have a private key.
     if (publicKey.IsNullOrEmpty()) return null;
@@ -219,10 +220,7 @@ public static class CertificateUtils
 
   public static byte[] GetPublicKey(byte[] snkData)
   {
-    var snkp = new StrongNameKeyPair(snkData);
-    var publicKey = snkp.PublicKey;
-
-    return publicKey;
+    return ExportSnk(snkData, rsa => rsa.ExportCspBlob(false));
   }
 
   public static byte[] GetPublicKeyToken(byte[] snkPublicKey)
