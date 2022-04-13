@@ -29,23 +29,23 @@
             linkLabelSource.LinkClicked += LinkLabelSource_LinkClicked;
         }
 
-        private void FormAbout_KeyPress(object sender, KeyEventArgs e)
+        private void FormAbout_KeyPress(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) Close();
         }
 
-        private void LinkLabelContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelContact_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(
                 $"mailto:{linkLabelContact.Text}?subject=About {Resources.Title} v{AssemblyUtils.GetVersion()}");
         }
 
-        private void LinkLabelSource_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelSource_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/cristianst85/DisruptiveSoftware.Cryptography.Tools");
         }
 
-        private void RichTextBoxCopyright_LinkClicked(object sender, LinkClickedEventArgs e)
+        private void RichTextBoxCopyright_LinkClicked(object? sender, LinkClickedEventArgs e)
         {
             Process.Start(e.LinkText ?? string.Empty);
         }

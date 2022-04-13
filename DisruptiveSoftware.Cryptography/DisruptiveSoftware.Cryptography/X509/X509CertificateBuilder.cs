@@ -80,7 +80,7 @@
             return this;
         }
 
-        protected Tuple<IList, IList> BuildX509Name(string? cn, string? ou, string? o, string? l, string? c)
+        protected static Tuple<IList, IList> BuildX509Name(string? cn, string? ou, string? o, string? l, string? c)
         {
             IList attributesOids = new ArrayList();
             IList attributesValues = new ArrayList();
@@ -98,7 +98,7 @@
             return new Tuple<IList, IList>(attributesOids, attributesValues);
         }
 
-        protected BigInteger GetRandomSerialNumber()
+        protected static BigInteger GetRandomSerialNumber()
         {
             return BigIntegers.CreateRandomInRange(
                 BigInteger.One,
@@ -107,7 +107,7 @@
             );
         }
 
-        protected string GetSignatureAlgorithm(int keySize)
+        protected static string GetSignatureAlgorithm(int keySize)
         {
             if (keySize == Constants.RsaKeySize.KeySize1024) return PkcsObjectIdentifiers.Sha1WithRsaEncryption.Id;
 
@@ -120,7 +120,7 @@
             throw new Exception($"Unable to determine signature algorithm. Invalid private key size {keySize}.");
         }
 
-        private void AddAttribute(DerObjectIdentifier oid, string? value, IList attributesOids, IList attributesValues)
+        private static void AddAttribute(DerObjectIdentifier oid, string? value, IList attributesOids, IList attributesValues)
         {
             attributesOids.Add(oid);
             attributesValues.Add(value);

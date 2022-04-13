@@ -21,5 +21,10 @@
         {
             return Certificate.ExportCertificate(password, PrivateKey, alias);
         }
+
+        public byte[] ExportToPfx(SecureString? password)
+        {
+            return Certificate.ExportToPfx(password);
+        }
     }
 }

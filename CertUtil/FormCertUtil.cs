@@ -34,7 +34,7 @@
             FormClosing += FormCertUtil_Closing;
         }
 
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             using var form = new FormAbout();
             form.Text = form.Text.Replace("{title}", Application.ProductName);
@@ -43,7 +43,7 @@
             form.ShowDialog(this);
         }
 
-        private void ButtonBrowsePath_Click(object sender, EventArgs e)
+        private void ButtonBrowsePath_Click(object? sender, EventArgs e)
         {
             using var openFileDialog = new OpenFileDialog();
             openFileDialog.FileName = string.Empty;
@@ -62,12 +62,12 @@
             }
         }
 
-        private void ButtonExport_Click(object sender, EventArgs e)
+        private void ButtonExport_Click(object? sender, EventArgs e)
         {
             ExportAsync();
         }
 
-        private void ButtonToogleShowPassword_Click(object sender, EventArgs e)
+        private void ButtonToogleShowPassword_Click(object? sender, EventArgs e)
         {
             textBoxPassword.ToogleUseSystemPasswordChar();
         }
@@ -79,7 +79,7 @@
             Close();
         }
 
-        private void ComboBoxObject_SelectionChangeCommitted(object sender, EventArgs e)
+        private void ComboBoxObject_SelectionChangeCommitted(object? sender, EventArgs e)
         {
             comboBoxFormat.Items.Clear();
 
@@ -97,7 +97,7 @@
             comboBoxFormat.SelectedItem = comboBoxFormat.Items[0];
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             CloseApplication();
         }
@@ -175,7 +175,7 @@
                                 if (cryptographicObjectText.IsNullOrEmpty())
                                     throw new Exception("Certificate does not have a private key.");
 
-                                cryptographicObjectContent = Encoding.ASCII.GetBytes(cryptographicObjectText);
+                                cryptographicObjectContent = Encoding.ASCII.GetBytes(cryptographicObjectText!);
                             }
                             else if (selectedItemFormat.Contains("Binary"))
                             {
@@ -224,7 +224,7 @@
             ToogleControls(true);
         }
 
-        private void FormCertUtil_Closing(object sender, FormClosingEventArgs e)
+        private void FormCertUtil_Closing(object? sender, FormClosingEventArgs e)
         {
             _isClosing = true;
         }

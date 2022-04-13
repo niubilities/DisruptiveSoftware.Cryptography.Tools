@@ -33,12 +33,13 @@
 
         public static SecureString? ToSecureString(this string? str)
         {
-            if (str == null) return null;
-            var secureString = new SecureString();
-
-            foreach (var c in str) secureString.AppendChar(c);
-
-            return secureString;
+            return str?.Aggregate(
+                new SecureString(),
+                (seed, b) =>
+                {
+                    seed.AppendChar(b);
+                    return seed;
+                });
         }
     }
 }

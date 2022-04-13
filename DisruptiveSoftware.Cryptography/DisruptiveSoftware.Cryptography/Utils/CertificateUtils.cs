@@ -1,4 +1,6 @@
-﻿namespace DisruptiveSoftware.Cryptography.Utils
+﻿using System.Linq;
+
+namespace DisruptiveSoftware.Cryptography.Utils
 {
     using System.Security;
     using System.Security.Cryptography;
@@ -20,7 +22,7 @@
 
             var stringBuilder = new StringBuilder();
 
-            foreach (var pemLine in privateKey.Split('\n'))
+            foreach (var pemLine in privateKey!.Split('\n'))
             {
                 // Trim padding CR and white spaces.
                 var line = pemLine.TrimEnd('\r').Trim();
@@ -48,17 +50,17 @@
             return rsa?.ToXmlString(true);
         }
 
-        public static string? ExportPrivateKeyToPEM(RSA rsaCryptoServiceProvider)
+        public static string? ExportPrivateKeyToPEM(RSA rsa)
         {
             using var textWriter = new StringWriter();
-            var asymmetricCipherKeyPair = DotNetUtilities.GetRsaKeyPair(rsaCryptoServiceProvider);
+            var asymmetricCipherKeyPair = DotNetUtilities.GetRsaKeyPair(rsa);
             var pemWriter = new PemWriter(textWriter);
             pemWriter.WriteObject(asymmetricCipherKeyPair.Private);
 
             return pemWriter.Writer.ToString();
         }
 
-        public static string ExportPrivateKeyToPEM(byte[] certificateData, SecureString? certificatePassword)
+        public static string? ExportPrivateKeyToPEM(byte[] certificateData, SecureString? certificatePassword)
         {
             using var x509Certificate2 = new X509Certificate2(
                 certificateData,
@@ -67,9 +69,7 @@
             );
 
             if (!x509Certificate2.HasPrivateKey) return null;
-
-            using var rsa = x509Certificate2.GetRSAPrivateKey();
-
+            using var rsa = x509Certificate2.GetRSAPrivateKey()!;
             return ExportPrivateKeyToPEM(rsa);
         }
 
@@ -83,7 +83,7 @@
         public static string ExportPublicKeyCertificateToBase64(byte[] certificateData,
             SecureString? certificatePassword)
         {
-            return Convert.ToBase64String(ExportPublicKeyCertificate(certificateData, certificatePassword));
+            return Convert.ToBase64String(ExportPublicKeyCertificate(certificateData, certificatePassword) ?? Array.Empty<byte>());
         }
 
         public static string? ExportPublicKeyCertificateToPEM(byte[] certificateData)
@@ -105,7 +105,7 @@
 
             stringBuilder.AppendLine(
                 Convert.ToBase64String(
-                    ExportPublicKeyCertificate(certificateData, certificatePassword),
+                    ExportPublicKeyCertificate(certificateData, certificatePassword) ?? Array.Empty<byte>(),
                     Base64FormattingOptions.InsertLineBreaks));
 
             stringBuilder.AppendLine("-----END CERTIFICATE-----");
@@ -136,11 +136,10 @@
             return pemWriter.Writer?.ToString();
         }
 
-        public static byte[] ExportSnkPrivateKey(byte[] snkCertificateData)
+        public static byte[]? ExportSnkPrivateKey(byte[] snkCertificateData)
         {
             var privateKey = ExportSnkPrivateKeyToPEM(snkCertificateData);
 
-            // Certificate does not have a private key.
             if (privateKey.IsNullOrEmpty()) return null;
 
             var stringBuilder = new StringBuilder();
@@ -165,24 +164,20 @@
             return ExportSnk(snkCertificateData, ExportPrivateKeyToPEM);
         }
 
-        public static byte[] ExportSnkPublicKeyCertificate(byte[] snkCertificateData)
+        public static byte[]? ExportSnkPublicKeyCertificate(byte[] snkCertificateData)
         {
             var publicKey = ExportSnkPublicKeyToPEM(snkCertificateData);
 
-            // Certificate does not have a private key.
             if (publicKey.IsNullOrEmpty()) return null;
 
             var stringBuilder = new StringBuilder();
-
-            foreach (var pemLine in publicKey.Split('\n'))
+            foreach (var line in from pemLine in publicKey?.Split('\n')// Trim padding CR and white spaces.
+                                 let line = pemLine.TrimEnd('\r').Trim()// Skip directives and empty lines.
+                                 where !(line.Contains("-----BEGIN PUBLIC KEY-----") || line.Contains("-----END PUBLIC KEY-----") ||
+                                                       line.Length == 0)
+                                 select line)
             {
-                // Trim padding CR and white spaces.
-                var line = pemLine.TrimEnd('\r').Trim();
-
-                // Skip directives and empty lines.
-                if (!(line.Contains("-----BEGIN PUBLIC KEY-----") || line.Contains("-----END PUBLIC KEY-----") ||
-                      line.Length == 0))
-                    stringBuilder.Append(line);
+                stringBuilder.Append(line);
             }
 
             // Decode Base64 to DER.
@@ -203,7 +198,7 @@
         {
             using var csp = HashAlgorithm.Create("SHA1");
             //new SHA1CryptoServiceProvider();
-            var hash = csp?.ComputeHash(snkPublicKey);
+            var hash = csp.ComputeHash(snkPublicKey);
 
             var token = new byte[8];
 

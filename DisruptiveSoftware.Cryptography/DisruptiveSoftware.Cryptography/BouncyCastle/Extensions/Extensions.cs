@@ -35,7 +35,12 @@ namespace DisruptiveSoftware.Cryptography.BouncyCastle.Extensions
 
             return x509Certificate2.Export(SystemX509Certificates.X509ContentType.Cert);
         }
+        public static byte[] ExportToPfx(this X509Certificate x509Certificate, SecureString? password)
+        {
+            var x509Certificate2 = new SystemX509Certificates.X509Certificate2(x509Certificate.GetEncoded());
 
+            return x509Certificate2.Export(SystemX509Certificates.X509ContentType.Pfx, password);
+        }
         public static AsymmetricKeyParameter GetPrivateKeyAsAsymmetricKeyParameter(
             this SystemX509Certificates.X509Certificate2 x509Certificate2)
         {

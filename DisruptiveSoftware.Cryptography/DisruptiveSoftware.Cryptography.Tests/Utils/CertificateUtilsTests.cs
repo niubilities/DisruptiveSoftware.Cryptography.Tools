@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Security;
+    using DisruptiveSoftware.Cryptography.Extensions;
     using DisruptiveSoftware.Cryptography.Tests.Extensions;
     using DisruptiveSoftware.Cryptography.Tests.TestData;
     using DisruptiveSoftware.Cryptography.Utils;
@@ -70,14 +71,7 @@
             GetResourceFromTestData($"{Test1NoBinaryFormat}.sslCertificate.p12");
         private static byte[] DataSnk => GetResourceFromTestData("test.snk");
 
-        private static SecureString GetSecureString => "123456".Aggregate(
-            new SecureString(),
-            (seed, b) =>
-            {
-                seed.AppendChar(b);
-
-                return seed;
-            });
+        private static SecureString GetSecureString => "123456".ToSecureString();
 
         [Test]
         public void ExportPrivateKey_StateUnderTest_ExpectedBehavior()

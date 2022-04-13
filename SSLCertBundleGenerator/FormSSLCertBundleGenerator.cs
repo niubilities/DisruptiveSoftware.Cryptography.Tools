@@ -19,7 +19,7 @@ namespace SSLCertBundleGenerator
         {
             InitializeComponent();
 
-            Text = Text.Replace("{version}", AssemblyUtils.GetVersion().ToString(3));
+            Text = Text.Replace("{version}", AssemblyUtils.GetVersion()?.ToString(3));
 
             toolStripStatusLabel.Text = string.Empty;
 
@@ -54,7 +54,7 @@ namespace SSLCertBundleGenerator
             set => base.Text = value;
         }
 
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             using var form = new FormAbout();
             form.Text = form.Text.Replace("{title}", Application.ProductName);
@@ -63,7 +63,7 @@ namespace SSLCertBundleGenerator
             form.ShowDialog(this);
         }
 
-        private void ButtonBrowse_Click(object sender, EventArgs e)
+        private void ButtonBrowse_Click(object? sender, EventArgs e)
         {
             using var folderBrowserDialog = new FolderBrowserDialog();
             var applicationPathDirectory = Path.GetDirectoryName(AssemblyUtils.GetApplicationPath());
@@ -78,17 +78,17 @@ namespace SSLCertBundleGenerator
                 textBoxSavePath.Text = folderBrowserDialog.SelectedPath;
         }
 
-        private void ButtonGenerate_Click(object sender, EventArgs e)
+        private void ButtonGenerate_Click(object? sender, EventArgs e)
         {
             GenerateCertificatesAsync();
         }
 
-        private void ButtonShowPassword_Click(object sender, EventArgs e)
+        private void ButtonShowPassword_Click(object? sender, EventArgs e)
         {
             textBoxPassword.ToogleUseSystemPasswordChar();
         }
 
-        private void CheckBoxRandomSerialNumber_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxRandomSerialNumber_CheckedChanged(object? sender, EventArgs e)
         {
             numericUpDownSerialNumber.Enabled = !checkBoxRandomSerialNumber.Checked;
         }
@@ -100,12 +100,12 @@ namespace SSLCertBundleGenerator
             Close();
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object? sender, EventArgs e)
         {
             CloseApplication();
         }
 
-        private void FormSSLCertBundleGenerator_Closing(object sender, FormClosingEventArgs e)
+        private void FormSSLCertBundleGenerator_Closing(object? sender, FormClosingEventArgs e)
         {
             _isClosing = true;
         }

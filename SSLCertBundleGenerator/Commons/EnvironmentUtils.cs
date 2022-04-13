@@ -5,7 +5,7 @@
 
     public static class EnvironmentUtils
     {
-        public static string GetMonoRuntimeVersion()
+        public static string? GetMonoRuntimeVersion()
         {
             var type = Type.GetType("Mono.Runtime");
 

@@ -5,7 +5,7 @@
 
     public static class AssemblyUtils
     {
-        public static Assembly? AssemblyResolver(object sender, ResolveEventArgs args)
+        public static Assembly? AssemblyResolver(object? sender, ResolveEventArgs args)
         {
             var resourceName = new AssemblyName(args.Name).Name + ".dll";
 

@@ -16,11 +16,11 @@
 
             richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace(
                 "{bouncyCastleCryptoLibVersion}",
-                AssemblyUtils.GetVersion("BouncyCastle.Crypto").ToString());
+                AssemblyUtils.GetVersion("BouncyCastle.Crypto")?.ToString());
 
             richTextBoxCopyright.Text = richTextBoxCopyright.Text.Replace(
                 "{disruptiveSoftwareCryptographyLibVersion}",
-                AssemblyUtils.GetVersion("DisruptiveSoftware.Cryptography").ToString());
+                AssemblyUtils.GetVersion("DisruptiveSoftware.Cryptography")?.ToString());
 
             KeyDown += FormAbout_KeyPress;
 
@@ -29,25 +29,26 @@
             linkLabelSource.LinkClicked += LinkLabelSource_LinkClicked;
         }
 
-        private void FormAbout_KeyPress(object sender, KeyEventArgs e)
+        private void FormAbout_KeyPress(object? sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape) Close();
         }
 
-        private void LinkLabelContact_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelContact_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(
                 $"mailto:{linkLabelContact.Text}?subject=About {Resources.Title} v{AssemblyUtils.GetVersion()}");
         }
 
-        private void LinkLabelSource_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelSource_LinkClicked(object? sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/cristianst85/DisruptiveSoftware.Cryptography.Tools");
         }
 
-        private void RichTextBoxCopyright_LinkClicked(object sender, LinkClickedEventArgs e)
+        private void RichTextBoxCopyright_LinkClicked(object? sender, LinkClickedEventArgs e)
         {
-            Process.Start(e.LinkText);
+            if (e.LinkText != null) 
+                Process.Start(e.LinkText);
         }
     }
 }

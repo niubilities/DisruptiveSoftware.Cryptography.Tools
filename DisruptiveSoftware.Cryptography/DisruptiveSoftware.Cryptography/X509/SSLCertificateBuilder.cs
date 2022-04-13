@@ -79,7 +79,6 @@ namespace DisruptiveSoftware.Cryptography.X509
             );
 
             // Set Subject Alternative Names.
-            if (SubjectAlternativeNames != null)
             {
                 var subjectAlternativeNames = new Asn1Encodable[SubjectAlternativeNames.Count];
 
