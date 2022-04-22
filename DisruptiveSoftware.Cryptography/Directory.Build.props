@@ -1,103 +1,208 @@
 <Project>
 
-	<Import Project="version.props" />
-	<Import Project="public.props" />
-	<PropertyGroup>
-		<SolutionDir>$(MSBuildThisFileDirectory)</SolutionDir>
-		<SolutionReadme>$([System.IO.Path]::Combine("$(SolutionDir)","readme.md"))</SolutionReadme>
-		<ProjectReadme>$([System.IO.Path]::Combine("$(MSBuildProjectDirectory)","readme.md"))</ProjectReadme>
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+    <SolutionReadme>$([System.IO.Path]::Combine("$(SolutionDir)","readme.md"))</SolutionReadme>
+    <ProjectReadme>$([System.IO.Path]::Combine("$(MSBuildProjectDirectory)","readme.md"))</ProjectReadme>
+    <GITHUB_ACTIONS>true</GITHUB_ACTIONS>
+  </PropertyGroup>
 
-	</PropertyGroup>
-	<Choose>
-		<When Condition="Exists('$(ProjectReadme)')">
-			<PropertyGroup>
-				<PackageReadmeFile>readme.md</PackageReadmeFile>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(ProjectReadme)" Pack='True' PackagePath='/' Visible='True'>
+  <PropertyGroup Label="project infomation">
+    <Version>0.3.1-alpha.1</Version>
 
-				</None>
-			</ItemGroup>
-		</When>
-		<When Condition="Exists('$(SolutionReadme)')">
-			<PropertyGroup>
-				<PackageReadmeFile>readme.md</PackageReadmeFile>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include='$(SolutionReadme)' Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-	</Choose>
-	<Choose>
-		<When Condition="Exists('$(MSBuildProjectDirectory)icon.png')">
-			<PropertyGroup>
-				<PackageIcon>icon.png</PackageIcon>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(MSBuildProjectDirectory)icon.png" Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-		<When Condition="Exists('$(SolutionDir)solution/icon.png')">
-			<PropertyGroup>
-				<PackageIcon>icon.png</PackageIcon>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(SolutionDir)solution/icon.png" Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-		<When Condition="Exists('$(SolutionDir)icon.png')">
-			<PropertyGroup>
-				<PackageIcon>icon.png</PackageIcon>
-				<icon>icon.png</icon>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(SolutionDir)icon.png" Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-	</Choose>
+    <!--产品版本 如果不指定，将会由 VersionPrefix.VersionSuffix 强签名组成-->
+    <!--<InformationalVersion>This is a prerelease package</InformationalVersion>-->
+ 
+    <!--
+		As the SDK sets these attributes automatically as part of the build, you'll get build time errors. 
+		Simply delete the assembly attributes, and use the MSBuild properties instead.
+		-->
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Deterministic>true</Deterministic>
 
-	<Choose>
-		<When Condition="Exists('$(MSBuildProjectDirectory)app.ico')">
-			<PropertyGroup>
-				<ApplicationIcon>$(MSBuildProjectDirectory)icon.png</ApplicationIcon>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(MSBuildProjectDirectory)app.ico" Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-		<When Condition="Exists('$(SolutionDir)solution/app.ico')">
-			<PropertyGroup>
-				<ApplicationIcon>$(SolutionDir)solution/icon.png</ApplicationIcon>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(SolutionDir)solution/app.ico" Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-		<When Condition="Exists('$(SolutionDir)app.ico')">
-			<PropertyGroup>
-				<ApplicationIcon>$(SolutionDir)app.ico</ApplicationIcon>
-			</PropertyGroup>
-			<ItemGroup>
-				<None Include="$(SolutionDir)app.ico" Pack='True' PackagePath='/' Visible='True' />
-			</ItemGroup>
-		</When>
-	</Choose>
+    <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
+    <NeutralLanguage>zh-CHS</NeutralLanguage>
+    <SignAssembly>true</SignAssembly>
+    <!--<AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)EmitMapper.snk</AssemblyOriginatorKeyFile>-->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 
+    <NoWarn>1701;1702;1591;8002</NoWarn>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 
-	<Target Name="TestMessage" AfterTargets="Build">
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+    <DefineConstants>$(DefineConstants);$(MSBuildProjectName.Replace(" ", "_").Replace(".", "_"));FEATURE_UNLOAD;FEATURE_NATIVE_RESOLVER</DefineConstants>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 
-		<!-- Use $(Property Name) to reference a property -->
-		<!--<Message Text="$(SolutionReadme)" Importance="high"  Condition="Exists('$(SolutionReadme)')"/>
+    <Optimize Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">true</Optimize>
+    <LangVersion>10</LangVersion>
+ 
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Label="Package infomation">
+
+    <PackageVersion>$(Version)</PackageVersion>
+
+    <!--<GeneratePackageOnBuild>false</GeneratePackageOnBuild>-->
+    <Authors>Jimbo</Authors>
+    <Company>TSharp</Company>
+    <Copyright>Copyright (c) 2006-2022 TSharp. All rights reserved.</Copyright>
+    <PackageId>Niubility.$(AssemblyName)</PackageId>
+    <PackageTags>EmitMapper;Mapper;POCO;Object Mapping</PackageTags>
+    <PackageLicenseExpression>GPL-2.0-or-later</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/niubilitynetcore/EmitMapper</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/niubilitynetcore/EmitMapper</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Title>$(AssemblyName)</Title>
+    <!--<Description>Description</Description>-->
+    <PackageDescription></PackageDescription>
+
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <!-- 只有在 GitHub 的 Action 构建才能使用源代码链接 -->
+    <!-- 源代码链接需要使用 commit 号，而在 GitHub 的 Action 构建的 commit 才是对的 -->
+    <!-- 本地构建，也许没有记得 commit 就构建，此时的 nuget 包的源代码是不对的，上传上去会让调试诡异 -->
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- 本地等不需要创建符号文件 -->
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <!--Load readme.md file for nuget PackageReadmeFile-->
+  <Choose>
+    <When Condition="Exists('$(ProjectReadme)')">
+      <PropertyGroup>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(ProjectReadme)" Pack='True' PackagePath='/' Visible='True'>
+
+        </None>
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionReadme)')">
+      <PropertyGroup>
+        <PackageReadmeFile>readme.md</PackageReadmeFile>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include='$(SolutionReadme)' Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+  </Choose>
+  <!--Load icon file for nuget PackageIcon-->
+  <Choose>
+    <When Condition="Exists('$(MSBuildProjectDirectory)icon.png')">
+      <PropertyGroup>
+        <PackageIcon>icon.png</PackageIcon>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(MSBuildProjectDirectory)icon.png" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionDir)solution/icon.png')">
+      <PropertyGroup>
+        <PackageIcon>icon.png</PackageIcon>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)solution/icon.png" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionDir)icon.png')">
+      <PropertyGroup>
+        <PackageIcon>icon.png</PackageIcon>
+        <icon>icon.png</icon>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)icon.png" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+  </Choose>
+  <!--Load app.ico file for ApplicationIcon(.exe)-->
+  <Choose>
+    <When Condition="Exists('$(MSBuildProjectDirectory)app.ico')">
+      <PropertyGroup>
+        <ApplicationIcon>$(MSBuildProjectDirectory)icon.png</ApplicationIcon>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(MSBuildProjectDirectory)app.ico" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionDir)solution/app.ico')">
+      <PropertyGroup>
+        <ApplicationIcon>$(SolutionDir)solution/icon.png</ApplicationIcon>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)solution/app.ico" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionDir)app.ico')">
+      <PropertyGroup>
+        <ApplicationIcon>$(SolutionDir)app.ico</ApplicationIcon>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)app.ico" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="Exists('$(MSBuildProjectDirectory)CHANGELOG.md')">
+      <PropertyGroup>
+        <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)CHANGELOG.md"))</PackageReleaseNotes>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(MSBuildProjectDirectory)CHANGELOG.md" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionDir)solution/CHANGELOG.md')">
+      <PropertyGroup>
+        <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(SolutionDir)solution/CHANGELOG.md"))</PackageReleaseNotes>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)solution/CHANGELOG.md" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+    <When Condition="Exists('$(SolutionDir)CHANGELOG.md')">
+      <PropertyGroup>
+        <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(SolutionDir)CHANGELOG.md"))</PackageReleaseNotes>
+      </PropertyGroup>
+      <ItemGroup>
+        <None Include="$(SolutionDir)CHANGELOG.md" Pack='True' PackagePath='/' Visible='True' />
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Target Name="TestMessage" AfterTargets="Build">
+
+    <!-- Use $(Property Name) to reference a property -->
+    <!--<Message Text="$(SolutionReadme)" Importance="high"  Condition="Exists('$(SolutionReadme)')"/>
 		<Message Text="$(ProjectReadme)" Importance="high"   Condition="Exists('$(ProjectReadme)')"/>-->
 
-		<!-- Use @(Item Name) to output a semi-colon
+    <!-- Use @(Item Name) to output a semi-colon
          separated list of items on one line      -->
-		<!--<Message Text="@(SolutionReadme)" Importance="high"/>-->
+    <!--<Message Text="@(SolutionReadme)" Importance="high"/>-->
 
-		<!-- Use %(Item Name.Metadata Property Name) to 
+    <!-- Use %(Item Name.Metadata Property Name) to 
          call the Message task once for each item.   -->
-		<!-- This will output each item on a separate line -->
-		<Message Text="%(None.Identity)" Importance="high" />
+    <!-- This will output each item on a separate line -->
+    <Message Text="%(None.Identity)" Importance="high" />
 
-	</Target>
+  </Target>
+
+
 </Project>

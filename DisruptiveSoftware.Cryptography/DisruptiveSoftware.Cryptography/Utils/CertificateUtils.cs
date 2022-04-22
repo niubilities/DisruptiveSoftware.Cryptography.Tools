@@ -97,7 +97,7 @@ namespace DisruptiveSoftware.Cryptography.Utils
             return pemWriter.Writer?.ToString();
         }
 
-        public static string ExportPublicKeyCertificateToPEM(byte[] certificateData, SecureString? certificatePassword)
+        public static string? ExportPublicKeyCertificateToPEM(byte[] certificateData, SecureString? certificatePassword)
         {
             var stringBuilder = new StringBuilder();
 

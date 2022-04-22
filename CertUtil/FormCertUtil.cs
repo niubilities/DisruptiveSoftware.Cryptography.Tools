@@ -85,12 +85,10 @@
 
             var selectedItemObject = (string)comboBoxObject.SelectedItem;
 
-            if (CertUtilConstants.CryptographicObjects[selectedItemObject] ==
-                CertUtilConstants.CryptographicObjectType.PublicKeyCertificate)
+            if (CertUtilConstants.CryptographicObjects[selectedItemObject] == CertUtilConstants.CryptographicObjectType.PublicKeyCertificate)
                 foreach (var pkcFormat in CertUtilConstants.PublicKeyCertificatesFormats)
                     comboBoxFormat.Items.Add(pkcFormat.Key);
-            else if (CertUtilConstants.CryptographicObjects[selectedItemObject] ==
-                     CertUtilConstants.CryptographicObjectType.PrivateKey)
+            else if (CertUtilConstants.CryptographicObjects[selectedItemObject] == CertUtilConstants.CryptographicObjectType.PrivateKey)
                 foreach (var pkFormat in CertUtilConstants.PrivateKeyFormats)
                     comboBoxFormat.Items.Add(pkFormat.Key);
 
@@ -121,7 +119,7 @@
 
                 var saveFileDialogFilter = string.Empty;
                 var saveFileDialogFileName = Path.GetFileNameWithoutExtension(textBoxPath.Text);
-
+                var isSnkFile = string.Equals(Path.GetExtension(textBoxPath.Text), ".snk", StringComparison.OrdinalIgnoreCase);
                 var selectedItemObject = (string)comboBoxObject.SelectedItem;
                 var selectedItemFormat = (string)comboBoxFormat.SelectedItem;
 
@@ -141,17 +139,19 @@
 
                             if (selectedItemFormat.Contains("Base64"))
                             {
-                                var cryptographicObjectText = CertificateUtils.ExportPublicKeyCertificateToPEM(
-                                    File.ReadAllBytes(textBoxPath.Text),
-                                    textBoxPassword.Text.ToSecureString());
+                                string?
+                                   cryptographicObjectText = isSnkFile
+                                    ? CertificateUtils.ExportSnkPublicKeyToPEM(File.ReadAllBytes(textBoxPath.Text))
+                                    : CertificateUtils.ExportPublicKeyCertificateToPEM(File.ReadAllBytes(textBoxPath.Text), textBoxPassword.Text.ToSecureString());
 
                                 cryptographicObjectContent = Encoding.ASCII.GetBytes(cryptographicObjectText);
                             }
                             else if (selectedItemFormat.Contains("Binary"))
                             {
-                                cryptographicObjectContent = CertificateUtils.ExportPublicKeyCertificate(
-                                    File.ReadAllBytes(textBoxPath.Text),
-                                    textBoxPassword.Text.ToSecureString());
+
+                                cryptographicObjectContent = isSnkFile
+                                    ? CertificateUtils.ExportSnkPublicKeyCertificate(File.ReadAllBytes(textBoxPath.Text))
+                                    : CertificateUtils.ExportPublicKeyCertificate(File.ReadAllBytes(textBoxPath.Text), textBoxPassword.Text.ToSecureString());
                             }
                             else
                             {
@@ -168,9 +168,9 @@
 
                             if (selectedItemFormat.Contains("Base64"))
                             {
-                                var cryptographicObjectText = CertificateUtils.ExportPrivateKeyToPEM(
-                                    File.ReadAllBytes(textBoxPath.Text),
-                                    textBoxPassword.Text.ToSecureString());
+                                var cryptographicObjectText = isSnkFile
+                                    ? CertificateUtils.ExportSnkPrivateKeyToPEM(File.ReadAllBytes(textBoxPath.Text))
+                                    : CertificateUtils.ExportPrivateKeyToPEM(File.ReadAllBytes(textBoxPath.Text), textBoxPassword.Text.ToSecureString());
 
                                 if (cryptographicObjectText.IsNullOrEmpty())
                                     throw new Exception("Certificate does not have a private key.");
@@ -179,10 +179,9 @@
                             }
                             else if (selectedItemFormat.Contains("Binary"))
                             {
-                                cryptographicObjectContent = CertificateUtils.ExportPrivateKey(
-                                    File.ReadAllBytes(textBoxPath.Text),
-                                    textBoxPassword.Text.ToSecureString());
-
+                                cryptographicObjectContent = isSnkFile
+                                    ? CertificateUtils.ExportSnkPrivateKey(File.ReadAllBytes(textBoxPath.Text))
+                                : CertificateUtils.ExportPrivateKey(File.ReadAllBytes(textBoxPath.Text), textBoxPassword.Text.ToSecureString());
                                 if (cryptographicObjectContent == null)
                                     throw new Exception("Certificate does not have a private key.");
                             }
