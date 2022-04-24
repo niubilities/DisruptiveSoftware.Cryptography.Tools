@@ -263,3 +263,5 @@ __pycache__/
 /CertUtil/Properties/GeneratedAssemblyInfo.cs
 *FodyWeavers.xml
 *FodyWeavers.xsd
+nupkgs
+nupkgs/*
