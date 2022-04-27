@@ -74,7 +74,7 @@
         private static SecureString GetSecureString => "123456".ToSecureString();
 
         [Test]
-        public void ExportPrivateKey_StateUnderTest_ExpectedBehavior()
+        public void ExportPrivateKey()
         {
             // Arrange
 
@@ -91,7 +91,7 @@
         }
 
         [Test]
-        public void ExportPrivateKeyAsXMLString_StateUnderTest_ExpectedBehavior()
+        public void ExportPrivateKeyAsXMLString()
         {
             // Arrange
 
@@ -107,7 +107,7 @@
         }
 
         [Test]
-        public void ExportPrivateKeyToPEM_StateUnderTest_ExpectedBehavior1()
+        public void ExportPrivateKeyToPEM1()
         {
             // Arrange
 
@@ -124,7 +124,7 @@
         }
 
         [Test]
-        public void ExportPublicKeyCertificate_StateUnderTest_ExpectedBehavior()
+        public void ExportPublicKeyCertificate()
         {
             // Arrange
 
@@ -141,7 +141,7 @@
         }
 
         [Test]
-        public void ExportPublicKeyCertificateToBase64_StateUnderTest_ExpectedBehavior()
+        public void ExportPublicKeyCertificateToBase64()
         {
             // Arrange
 
@@ -158,7 +158,7 @@
         }
 
         [Test]
-        public void ExportPublicKeyCertificateToPEM_StateUnderTest_ExpectedBehavior()
+        public void ExportPublicKeyCertificateToPEM()
         {
             // Arrange
             //need a file without password
@@ -188,7 +188,7 @@
         }
 
         [Test]
-        public void ExportPublicKeyCertificateToPEM_StateUnderTest_ExpectedBehavior1()
+        public void ExportPublicKeyCertificateToPEM1()
         {
             // Arrange
 
@@ -215,7 +215,7 @@
         }
 
         [Test]
-        public void ExportPublicKeyToPEM_StateUnderTest_ExpectedBehavior()
+        public void ExportPublicKeyToPEM()
         {
             // Arrange   
             //need a file without password
@@ -231,7 +231,7 @@
         }
 
         [Test]
-        public void ExportSnkPrivateKey_StateUnderTest_ExpectedBehavior()
+        public void ExportSnkPrivateKey()
         {
             // Arrange
 
@@ -246,7 +246,7 @@
         }
 
         [Test]
-        public void ExportSnkPrivateKeyToPEM_StateUnderTest_ExpectedBehavior()
+        public void ExportSnkPrivateKeyToPEM()
         {
             // Arrange
 
@@ -262,7 +262,7 @@
         }
 
         [Test]
-        public void ExportSnkPublicKeyCertificate_StateUnderTest_ExpectedBehavior()
+        public void ExportSnkPublicKeyCertificate()
         {
             // Arrange
 
@@ -277,7 +277,7 @@
         }
 
         [Test]
-        public void ExportSnkPublicKeyCertificateToPEM_StateUnderTest_ExpectedBehavior()
+        public void ExportSnkPublicKeyCertificateToPEM()
         {
             // Arrange
 
@@ -291,26 +291,26 @@
         }
 
         [Test]
-        public void GetPublicKey_StateUnderTest_ExpectedBehavior()
+        public void GetPublicKey()
         {
             // Arrange
 
             var snkData = DataSnk;
 
             // Act
-            var result = CertificateUtils.GetPublicKey(
+            var result = CertificateUtils.GetPublicKeyPkcs1(
                 snkData);
 
             // Assert 
-            result.ShouldBe(ResultConstants.DataSnkPublicKeyXxxFormat);
+            result.ShouldBe(ResultConstants.DataSnkPublicKeyPkcs1Format);
         }
 
         [Test]
-        public void GetPublicKeyToken_StateUnderTest_ExpectedBehavior()
+        public void GetPublicKeyToken()
         {
             // Arrange
 
-            var snkPublicKey = CertificateUtils.GetPublicKey(
+            var snkPublicKey = CertificateUtils.GetPublicKeyPkcs1(
                 DataSnk);
 
             // Act

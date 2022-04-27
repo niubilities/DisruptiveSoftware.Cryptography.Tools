@@ -1,11 +1,12 @@
 ﻿namespace CertUtil
 {
+
     public static class CertUtilConstants
     {
         // Object Formats.
         public static readonly Dictionary<string, CryptographicObjectType> CryptographicObjects = new()
         {
-            { "Public Key Certificate", CryptographicObjectType.PublicKeyCertificate },
+            { "Public Key Certificate", CryptographicObjectType.PublicKey },
             { "Private Key (no password)", CryptographicObjectType.PrivateKey }
         };
 
@@ -23,12 +24,12 @@
             { "Binary DER encoded (*.crt)", "*.crt" },
             { "Binary DER encoded (*.cer)", "*.cer" }
         };
+    }
 
-        public enum CryptographicObjectType
-        {
-            PublicKeyCertificate,
+    public enum CryptographicObjectType
+    {
+        PublicKey,
 
-            PrivateKey
-        }
+        PrivateKey
     }
 }

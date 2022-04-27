@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace DisruptiveSoftware.Cryptography.Utils
+﻿namespace DisruptiveSoftware.Cryptography.Utils
 {
     using System.Security;
     using System.Security.Cryptography;
@@ -56,7 +54,7 @@ namespace DisruptiveSoftware.Cryptography.Utils
             var asymmetricCipherKeyPair = DotNetUtilities.GetRsaKeyPair(rsa);
             var pemWriter = new PemWriter(textWriter);
             pemWriter.WriteObject(asymmetricCipherKeyPair.Private);
-
+           
             return pemWriter.Writer.ToString();
         }
 
@@ -69,7 +67,9 @@ namespace DisruptiveSoftware.Cryptography.Utils
             );
 
             if (!x509Certificate2.HasPrivateKey) return null;
+
             using var rsa = x509Certificate2.GetRSAPrivateKey()!;
+
             return ExportPrivateKeyToPEM(rsa);
         }
 
@@ -83,7 +83,8 @@ namespace DisruptiveSoftware.Cryptography.Utils
         public static string ExportPublicKeyCertificateToBase64(byte[] certificateData,
             SecureString? certificatePassword)
         {
-            return Convert.ToBase64String(ExportPublicKeyCertificate(certificateData, certificatePassword) ?? Array.Empty<byte>());
+            return Convert.ToBase64String(
+                ExportPublicKeyCertificate(certificateData, certificatePassword) ?? Array.Empty<byte>());
         }
 
         public static string? ExportPublicKeyCertificateToPEM(byte[] certificateData)
@@ -113,10 +114,10 @@ namespace DisruptiveSoftware.Cryptography.Utils
             return stringBuilder.ToString();
         }
 
-        public static string? ExportPublicKeyToPEM(RSA rsaCryptoServiceProvider)
+        public static string? ExportPublicKeyToPEM(RSA rsa)
         {
             using var textWriter = new StringWriter();
-            var asymmetricCipherKeyPair = DotNetUtilities.GetRsaKeyPair(rsaCryptoServiceProvider);
+            var asymmetricCipherKeyPair = DotNetUtilities.GetRsaKeyPair(rsa);
             var pemWriter = new PemWriter(textWriter);
             pemWriter.WriteObject(asymmetricCipherKeyPair.Public);
 
@@ -171,14 +172,13 @@ namespace DisruptiveSoftware.Cryptography.Utils
             if (publicKey.IsNullOrEmpty()) return null;
 
             var stringBuilder = new StringBuilder();
-            foreach (var line in from pemLine in publicKey?.Split('\n')// Trim padding CR and white spaces.
-                                 let line = pemLine.TrimEnd('\r').Trim()// Skip directives and empty lines.
-                                 where !(line.Contains("-----BEGIN PUBLIC KEY-----") || line.Contains("-----END PUBLIC KEY-----") ||
-                                                       line.Length == 0)
-                                 select line)
-            {
+
+            foreach (var line in from pemLine in publicKey?.Split('\n') // Trim padding CR and white spaces.
+                     let line = pemLine.TrimEnd('\r').Trim() // Skip directives and empty lines.
+                     where !(line.Contains("-----BEGIN PUBLIC KEY-----") || line.Contains("-----END PUBLIC KEY-----") ||
+                             line.Length == 0)
+                     select line)
                 stringBuilder.Append(line);
-            }
 
             // Decode Base64 to DER.
             return Convert.FromBase64String(stringBuilder.ToString());
@@ -189,9 +189,10 @@ namespace DisruptiveSoftware.Cryptography.Utils
             return ExportSnk(snkCertificateData, ExportPublicKeyToPEM);
         }
 
-        public static byte[] GetPublicKey(byte[] snkData)
+        public static byte[] GetPublicKeyPkcs1(byte[] snkData)
         {
-            return ExportSnk(snkData, rsa => rsa.ExportCspBlob(false));
+            //return ExportSnk(snkData, rsa => rsa.ExportCspBlob(false));
+            return ExportSnk(snkData, rsa => rsa.ExportRSAPublicKey());
         }
 
         public static byte[] GetPublicKeyToken(byte[] snkPublicKey)
@@ -214,10 +215,13 @@ namespace DisruptiveSoftware.Cryptography.Utils
         /// <param name="snkData">The snk data.</param>
         /// <param name="processor">The processor.</param>
         /// <returns>A <typeparamref name="T"></typeparamref></returns>
-        private static T ExportSnk<T>(byte[] snkData, Func<RSACryptoServiceProvider, T> processor)
+        private static T ExportSnk<T>(byte[] snkData, Func<RSA, T> processor)
         {
             using RSACryptoServiceProvider rsa = new();
             rsa.ImportCspBlob(snkData);
+            rsa.PersistKeyInCsp = true;
+            //X509Certificate2 certificate2 = new X509Certificate2(rsa.ExportCspBlob(true));
+            //var certrsa = certificate2.GetRSAPrivateKey();
 
             return processor(rsa);
         }
