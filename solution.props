@@ -4,7 +4,7 @@
 	Properties in this file can be changed in general if you using it.		
 	please provide your good idea if you are willing	-->
 	<PropertyGroup>
-		<Version>2.1.6</Version>
+		<Version>0.0.1</Version>
 
 		<!--产品版本 如果不指定，将会由 VersionPrefix.VersionSuffix 强签名组成-->
 		<!--<InformationalVersion>This is a prerelease package</InformationalVersion>-->
@@ -28,8 +28,6 @@
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/niubilitynetcore/EmitMapper</RepositoryUrl>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-
-	
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
 		<PackageOutputPath>$(SlnDir)nupkgs</PackageOutputPath>
@@ -39,7 +37,7 @@
 	<Choose>
 		<When Condition="Exists('$(ProjDir)Description.md')">
 			<PropertyGroup>
-				<Description>$([System.IO.File]::ReadAllText("$(ProjDir)Description.md"))</Description>
+				<Description>$([System.IO.File]::ReadAllText("$(ProjDir)description.md"))</Description>
 				<!--<PackageDescription></PackageDescription>-->
 			</PropertyGroup>
 			<ItemGroup>
@@ -64,7 +62,8 @@
 
 	<Target Name="TestMessage" Label="Directory.Build.props" AfterTargets="Build">
 
-		<Message Text="===================================Directory.Build.props=======================" Importance="high" />
+		<!--<Message Text="==Start Test========================================================" Importance="high" />-->
+
 		<!-- Use $(Property Name) to reference a property -->
 		<!--<Message Text="$(SolutionReadme)" Importance="high"  Condition="Exists('$(SolutionReadme)')"/>
 		<Message Text="$(ProjectReadme)" Importance="high"   Condition="Exists('$(ProjectReadme)')"/>-->
@@ -85,7 +84,7 @@
 		<!-- This will output each item on a separate line -->
 		<!--<Message Text="%(None.Identity)" Importance="high" />-->
 
-		<Message Text="//Directory.Build.props//////////////////////" Importance="high" />
+		<!--<Message Text="//End Test//////////////////////" Importance="high" />-->
 	</Target>
 
 
