@@ -37,9 +37,9 @@ jobs:
         if: matrix.cache
         uses: actions/cache@v2
         with:
-          path: ${{ github.workspace }}/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: ${{ runner.os }}-nuget-
+            path: ${{ github.workspace }}/.nuget/packages
+            key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+            restore-keys: ${{ runner.os }}-nuget-
           
           
       - name: Setup .NET Core SDK 6.0.*
@@ -48,12 +48,9 @@ jobs:
             dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: 
-          dotnet new nugetconfig
-          dotnet restore -v n
-
-      - name: Build
-        run: dotnet build --no-restore
+        run: |
+            dotnet new nugetconfig  
+            dotnet restore -v n
 
       - name: EmitMapper Unit Tests
         run: dotnet test EmitMapper.Tests/EmitMapper.Tests.csproj --no-build --verbosity normal -p:ParallelizeTestCollections=false
