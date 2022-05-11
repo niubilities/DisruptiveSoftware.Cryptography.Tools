@@ -12,20 +12,45 @@ on:
             required: true
             default: 'warning'
         
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  POWERSHELL_TELEMETRY_OPTOUT: 1
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+  
 jobs:
   publish:
     name: build, pack & publish
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-2019, windows-2022]
+        cache: [true, false]
+      fail-fast: false
     steps:
       - uses: actions/checkout@v2
-    
-      - name: Setup .NET Core SDK 6.0.*
-        uses: actions/setup-dotnet@v2.0.0
         with:
-            dotnet-version: 6.0.*
+          fetch-depth: 0
+
+      - name: Cache NuGet packages
+        if: matrix.cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: ${{ runner.os }}-nuget-
+          
+          
+      - name: Setup .NET Core SDK 6.0.*
+        uses: jetersen/setup-dotnet@fix/usePwsh
+        with:
+            dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: 
+          dotnet new nugetconfig
+          dotnet restore -v n
 
       - name: Build
         run: dotnet build --no-restore
