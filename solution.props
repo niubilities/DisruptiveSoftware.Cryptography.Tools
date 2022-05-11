@@ -21,9 +21,9 @@
     <PackageId>Niubility.$(AssemblyName)</PackageId>
     <PackageTags>EmitMapper;Mapper;POCO;Object Mapping</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/niubilitynetcore/EmitMapper</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/niubilities/DisruptiveSoftware.Cryptography.Tools</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/niubilitynetcore/EmitMapper</RepositoryUrl>
+    <RepositoryUrl>https://github.com/niubilities/DisruptiveSoftware.Cryptography.Tools</RepositoryUrl>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
