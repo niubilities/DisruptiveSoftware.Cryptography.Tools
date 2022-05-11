@@ -39,7 +39,7 @@ jobs:
       #- uses: hmarr/debug-action@v2
       # Publish
       - name: publish DisruptiveSoftware.Cryptography
-        id: publish_nuget_DisruptiveSoftware.Cryptography
+        id: publish_nuget_DisruptiveSoftware_Cryptography
         #uses: rohith/publish-nuget@v2
 
         uses: niubilitytools/push-nuget@v1
