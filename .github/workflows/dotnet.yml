@@ -50,6 +50,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore -v n
 
+      - name: Build
+        run: dotnet build --no-restore        
+
       - name: Unit Tests
         run: dotnet test "DisruptiveSoftware.Cryptography/DisruptiveSoftware.Cryptography.Tests/DisruptiveSoftware.Cryptography.Tests.csproj" --no-build --verbosity normal -p:ParallelizeTestCollections=false
 
