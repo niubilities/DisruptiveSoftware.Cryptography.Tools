@@ -25,11 +25,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-2019, windows-2022]
-        cache: [true, false]
+        os: [ windows-2022] #ubuntu-latest, macos-latest, windows-2019,
+        cache: [ false]
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -43,7 +43,7 @@ jobs:
           
           
       - name: Setup .NET Core SDK 6.0.*
-        uses: jetersen/setup-dotnet@fix/usePwsh
+        uses: actions/setup-dotnet@v2
         with:
             dotnet-version: 6.0.x
 

@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>SSLCertBundleGenerator.Program</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\Icons\ssl_certificates.ico</ApplicationIcon>
-    <PackageLicenseExpression>GPL</PackageLicenseExpression>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.csproj">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework> 
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<PropertyGroup>
+		<StartupObject>SSLCertBundleGenerator.Program</StartupObject>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>Resources\Icons\ssl_certificates.ico</ApplicationIcon>
+		<PackageLicenseExpression>GPL</PackageLicenseExpression>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="App.config" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.csproj">
 
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Menus\information.png" />
-    <Content Include="Resources\Icons\ssl_certificates.ico" />
-    <Content Include="Resources\Menus\readme.txt" />
-  </ItemGroup>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Resources\Menus\information.png" />
+		<Content Include="Resources\Icons\ssl_certificates.ico" />
+		<Content Include="Resources\Menus\readme.txt" />
+	</ItemGroup>
 
 </Project>

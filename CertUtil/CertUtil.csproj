@@ -1,33 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework> 
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <StartupObject>CertUtil.Program</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\Icons\key_go.ico</ApplicationIcon>
-    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
+	<PropertyGroup>
+		<StartupObject>CertUtil.Program</StartupObject>
+	</PropertyGroup>
+	<PropertyGroup>
+		<ApplicationIcon>Resources\Icons\key_go.ico</ApplicationIcon>
+		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="App.config" />
+		<None Include="packages.config" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.csproj">
+	<ItemGroup>
+		<ProjectReference Include="..\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography\DisruptiveSoftware.Cryptography.csproj">
 
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\Icons\key_go.ico" />
-  </ItemGroup>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Resources\Icons\key_go.ico" />
+	</ItemGroup>
 
 
 </Project>
