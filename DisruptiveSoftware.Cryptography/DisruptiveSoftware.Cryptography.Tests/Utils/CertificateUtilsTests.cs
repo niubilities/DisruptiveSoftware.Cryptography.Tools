@@ -318,7 +318,7 @@
                 snkPublicKey);
 
             // Assert
-            result.ShouldBe("6CADB13A5BD8AAED");
+            result.ShouldBe("F3A88704CD078329");
         }
     }
 }
