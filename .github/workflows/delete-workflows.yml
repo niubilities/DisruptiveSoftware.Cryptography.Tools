@@ -5,8 +5,19 @@ on:
   #  branches:
   #    [ master ]
       
-  workflow_dispatch:
-   
+  workflow_dispatch:  
+    inputs:
+      days:
+        description: 'Number of days.'
+        required: true
+        default: 30
+      minimum_runs:
+        description: 'The minimum runs to keep for each workflow.'
+        required: true
+        default: 6
+      delete_workflow_pattern:
+        description: 'The name of the workflow. if not set then it will target all workflows.'
+        required: false
 
   schedule:
     - cron: '0 0 * * *'
@@ -18,8 +29,9 @@ jobs:
    steps:
      - name: Delete Workflow Runs
        id: workflow
-       uses: GitRML/delete-workflow-runs@main
+       uses: Mattraks/delete-workflow-runs@v2
        with:
           token: ${{ github.token }}
-          retain_days: 10
+          repository: ${{ github.repository }}
+          retain_days: 30
           keep_minimum_runs: 10
