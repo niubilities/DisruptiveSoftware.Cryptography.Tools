@@ -12,7 +12,7 @@
     <CertificateFileName>EmitMapper.snk</CertificateFileName>
     <ChangeLogFileName>changelog.md</ChangeLogFileName>
     <ProjectDescriptionFileName>description.md</ProjectDescriptionFileName>
-    <!--<GITHUB_ACTIONS>true</GITHUB_ACTIONS>-->
+    <GITHUB_ACTIONS>true</GITHUB_ACTIONS>
   </PropertyGroup>
   <PropertyGroup>
     <Authors>Jimbo</Authors>
