@@ -51,13 +51,13 @@
 
 	<ItemGroup>
 		<None Include="$(SlnDir)*.*">
-			<Link> Global Files/.sln Folder/%(Filename)%(Extension)</Link>
+			<Link> Global Files/Root(.sln)/%(Filename)%(Extension)</Link>
 		</None>
 		<None Include="$(SlnSolutionDir)**/*.*" Condition="Exists('$(SlnSolutionDir)')">
-			<Link> Global Files/.sln Folder/Solution/%(RecursiveDir)/%(Filename)%(Extension)</Link>
+			<Link> Global Files/Root(.sln)/Solution/%(RecursiveDir)/%(Filename)%(Extension)</Link>
 		</None>
 		<None Include="$(SlnDir).github/**/*.*">
-			<Link> Global Files/.github_%(RecursiveDir)/%(Filename)%(Extension)</Link>
+			<Link> Global Files/Root(.sln)/.github/%(RecursiveDir)/%(Filename)%(Extension)</Link>
 		</None>
 		<None Exclude="$(SlnDir)**/*.g.props" Include="$(SlnDir)**/*.props" >
 			<Link> Global Files/%(RecursiveDir)/%(Filename)%(Extension)</Link>
