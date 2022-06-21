@@ -1,19 +1,19 @@
 ﻿namespace CertUtil.Commons.Controls.Validation
 {
-    public class FileExistsValidationRule : TextRequiredValidationRule
+  public class FileExistsValidationRule : TextRequiredValidationRule
+  {
+    public override bool IsValid(Control control)
     {
-        public override bool IsValid(Control control)
-        {
-            if (base.IsValid(control))
-            {
-                if (File.Exists(control.Text)) return true;
+      if (base.IsValid(control))
+      {
+        if (File.Exists(control.Text)) return true;
 
-                InvalidateControl(control);
+        InvalidateControl(control);
 
-                return false;
-            }
+        return false;
+      }
 
-            return false;
-        }
+      return false;
     }
+  }
 }

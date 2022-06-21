@@ -1,7 +1,7 @@
 ﻿namespace CertUtil.Commons.Controls.Validation.Impl
 {
-    public interface IControlValidationRule
-    {
-        bool IsValid(Control control);
-    }
+  public interface IControlValidationRule
+  {
+    bool IsValid(Control control);
+  }
 }

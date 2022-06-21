@@ -59,7 +59,7 @@
 		<None Include="$(SlnDir).github/**/*.*">
 			<Link> Global Files/Root(.sln)/.github/%(RecursiveDir)/%(Filename)%(Extension)</Link>
 		</None>
-		<None Exclude="$(SlnDir)**/*.g.props" Include="$(SlnDir)**/*.props" >
+		<None Exclude="$(SlnDir)**/*.g.props" Include="$(SlnDir)**/*.props">
 			<Link> Global Files/%(RecursiveDir)/%(Filename)%(Extension)</Link>
 		</None>
 

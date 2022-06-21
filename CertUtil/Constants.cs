@@ -1,10 +1,10 @@
 ﻿namespace CertUtil
 {
-    public static class Constants
+  public static class Constants
+  {
+    public static class Controls
     {
-        public static class Controls
-        {
-            public static Color InvalidControlColor => ColorTranslator.FromHtml("#FFC0C0");
-        }
+      public static Color InvalidControlColor => ColorTranslator.FromHtml("#FFC0C0");
     }
+  }
 }

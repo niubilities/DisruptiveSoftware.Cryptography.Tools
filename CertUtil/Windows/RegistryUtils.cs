@@ -1,16 +1,16 @@
 ﻿namespace CertUtil.Windows
 {
-    using Microsoft.Win32;
+  using Microsoft.Win32;
 
-    public static class RegistryUtils
+  public static class RegistryUtils
+  {
+    public static string? GetCurrentMajorVersionNumber()
     {
-        public static string? GetCurrentMajorVersionNumber()
-        {
-            using var registryKey = Registry.LocalMachine.OpenSubKey(
-                "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
-                false);
+      using var registryKey = Registry.LocalMachine.OpenSubKey(
+        "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion",
+        false);
 
-            return registryKey?.GetValue("CurrentMajorVersionNumber", string.Empty)?.ToString();
-        }
+      return registryKey?.GetValue("CurrentMajorVersionNumber", string.Empty)?.ToString();
     }
+  }
 }
